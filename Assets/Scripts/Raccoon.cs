@@ -1,35 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Raccoon : MonoBehaviour {
+public class Raccoon //: MonoBehaviour 
+{
 
     string type;
     float minReproTime, maxReproTime;
-    int minReproRate, maxReproRate;
+    int minReproRate, maxReproRate, maxPop;
 
 	// constructor
-	void Raccoon(string myBreed) 
-    {
-        type = myBreed;
-        minReproTime = 5f;
-        maxReproTime = 7f;
-        minReproRate = 3;
-        maxReproTime = 5;
-	}
-
-    void Raccoon(string myBreed, float minTime, float maxTime, int minOffspring, int maxOffspring)
+    public Raccoon(string myBreed, float minTime, float maxTime, int minOffspring, int maxOffspring, int maxRaccoons)
     {
         type = myBreed;
         minReproTime = minTime;
         maxReproTime = maxTime;
         minReproRate = minOffspring;
         maxReproRate = maxOffspring;
+        maxPop = maxRaccoons;
     }
 	
 	//getters
     protected string Type()
     {
         return type;
+    }
+
+    protected int MaxPopulation()
+    {
+        return maxPop;
     }
 
     //setters
@@ -48,10 +46,19 @@ public class Raccoon : MonoBehaviour {
 
     //other methods
     //do raccoons keep track of when they should breed?
+    //the bins need to tell the raccoons if they can breed?
 
     //make more raccoons!
     protected int Multiply()
     {
-        return Random.Range(minReproRate, maxReproRate);
+        int babies = Random.Range(minReproRate, maxReproRate);
+
+        if (MissionController.breedEventHandler != null)
+        {
+            // Call all the methods that have subscribed to the delegate
+            MissionController.breedEventHandler(this, babies);
+        }
+
+        return babies;
     }
 }

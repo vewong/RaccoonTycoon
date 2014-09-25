@@ -49,7 +49,7 @@
      <Compile Include="Assets\ProCore\Prototype\Scripts\RebuildMeshOnWake.cs" />
      <Compile Include="Assets\Scripts\Bin.cs" />
      <Compile Include="Assets\Scripts\MissionController.cs" />
-     <Compile Include="Assets\Scripts\raccoon.cs" />
+     <Compile Include="Assets\Scripts\Raccoon.cs" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Transparent Vertex Color.shader" />
