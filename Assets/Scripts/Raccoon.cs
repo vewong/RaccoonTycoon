@@ -6,28 +6,22 @@ public class Raccoon //: MonoBehaviour
 
     string type;
     float minReproTime, maxReproTime;
-    int minReproRate, maxReproRate, maxPop;
+    int minReproRate, maxReproRate;
 
 	// constructor
-    public Raccoon(string myBreed, float minTime, float maxTime, int minOffspring, int maxOffspring, int maxRaccoons)
+    public Raccoon(string myBreed, float minTime, float maxTime, int minOffspring, int maxOffspring)
     {
         type = myBreed;
         minReproTime = minTime;
         maxReproTime = maxTime;
         minReproRate = minOffspring;
         maxReproRate = maxOffspring;
-        maxPop = maxRaccoons;
     }
 	
 	//getters
     protected string Type()
     {
         return type;
-    }
-
-    protected int MaxPopulation()
-    {
-        return maxPop;
     }
 
     //setters

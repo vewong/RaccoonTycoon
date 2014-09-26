@@ -1,22 +1,62 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
 
 public class MissionController : MonoBehaviour
 {
+    private MissionController instance;
+
+    public MissionController Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                GameObject instanceObject = new GameObject("MissionController");
+                instance = instanceObject.AddComponent<MissionController>();
+            }
+
+            return instance;
+        }
+    }
+
     public delegate void BreedEvent(Raccoon parent, int babies);
     public static BreedEvent breedEventHandler;
 
-    //public Text raccoonCountDisplay;
+    public Text raccoonCountDisplay;
 
     //each entry of this array will be the count of that type of raccoon
     //should try to set up an enum later
-    //int[] raccoons = new int[5];
-    //List<int> pairOfRaccoons = new List<int>();
-
-    //amount of time that should pass before a new raccoon is created
-    //float breedingTime, breedingTimeMin = 3f, breedingTimeMax = 5f;
+    public enum Type
+    {
+        trash = 0,
+        sewer = 1,
+        street = 2,
+        bush = 3,
+        tree = 4,
+        house = 5,
+        middleclass = 6,
+        uppermiddleclass = 7,
+        bourgeoisie = 8,
+        artisan = 9,
+        courtjester = 10,
+        squire = 11,
+        knight = 12,
+        rook = 13,
+        king = 14,
+        queen = 15,
+        demigod = 16,
+        god = 17,
+        goddess = 18,
+        space = 19,
+        solar = 20,
+        universe = 21,
+        blackhole = 22,
+        whitehole = 23,
+        darkmatter = 24
+    };
+    //MAGIC NUMBER, CHANGE THIS IF YOU CHANGE THE ENUM
+    int numTypes = 25;
 
     //font animation
     //int displayNum;
@@ -62,6 +102,24 @@ public class MissionController : MonoBehaviour
 
         //GUI.Label(new Rect(10, 0, 100, 50), "Raccoons: " + displayNum);
         //raccoonCountDisplay.text = "Raccoons: " + displayNum;
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogError("There can only be one!");
+            Destroy(this);
+        }
+    }
+
+    public int GetNumTypes()
+    {
+        return numTypes;
     }
 
     /// <summary>
