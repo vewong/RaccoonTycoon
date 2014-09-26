@@ -4,9 +4,9 @@ using System.Collections;
 
 public class MissionController : MonoBehaviour
 {
-    private MissionController instance;
+    private static MissionController instance;
 
-    public MissionController Instance
+    public static MissionController Instance
     {
         get
         {
@@ -20,8 +20,8 @@ public class MissionController : MonoBehaviour
         }
     }
 
-    public delegate void BreedEvent(Raccoon parent, int babies);
-    public static BreedEvent breedEventHandler;
+    public delegate void SellEvent(Raccoon raccoonSold, int numSold);
+    public static SellEvent sellEventHandler;
 
     public Text raccoonCountDisplay;
 
@@ -59,49 +59,30 @@ public class MissionController : MonoBehaviour
     int numTypes = 25;
 
     //font animation
-    //int displayNum;
+    int displayNum;
+    int moneys;
+
+    //bins
+    Bin starterBin = new Bin();
 
     // Use this for initialization
-    //void Start()
-    //{
-        //for (int i = 0; i < raccoons.Length; i++)
-        //{
-            //set count of each raccoon type to 0
-            //raccoons[i] = 0;
-        //}
+    void Start()
+    {
 
-        //PROTOTYPE:
-        //raccoons[0] = 2;
-        //breedingTime = Random.Range(breedingTimeMin, breedingTimeMax);
-        //displayNum = raccoons[0];
-    //}
+        displayNum = starterBin.GetRaccoonsInBin();
+        moneys = 200;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        //if (breedingTime <= 0)
-        //{
-            //startBreeding();
-        //}
 
-        //breedingTime -= Time.deltaTime;
     }
 
     void OnGUI()
     {
-
-        //hopefully slowly tick up the racoon count instead of it just appearing...
-       // if (displayNum < raccoons[0])
-        //{
-        //    displayNum++;
-        //}
-        //else
-        //{
-        //    displayNum = raccoons[0];
-        //}
-
         //GUI.Label(new Rect(10, 0, 100, 50), "Raccoons: " + displayNum);
-        //raccoonCountDisplay.text = "Raccoons: " + displayNum;
+        raccoonCountDisplay.text = "Raccoons: " + displayNum;
     }
 
     private void Awake()
@@ -120,6 +101,13 @@ public class MissionController : MonoBehaviour
     public int GetNumTypes()
     {
         return numTypes;
+    }
+
+    public Bin GetCurrentBin()
+    {
+        //eventually need some code in here about what bin the player is viewing
+        //but for now...
+        return starterBin;
     }
 
     /// <summary>

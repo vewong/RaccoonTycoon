@@ -4,12 +4,12 @@ using System.Collections;
 public class Raccoon //: MonoBehaviour 
 {
 
-    string type;
+    MissionController.Type type;
     float minReproTime, maxReproTime;
     int minReproRate, maxReproRate;
 
 	// constructor
-    public Raccoon(string myBreed, float minTime, float maxTime, int minOffspring, int maxOffspring)
+    public Raccoon(MissionController.Type myBreed, float minTime, float maxTime, int minOffspring, int maxOffspring)
     {
         type = myBreed;
         minReproTime = minTime;
@@ -19,9 +19,19 @@ public class Raccoon //: MonoBehaviour
     }
 	
 	//getters
-    protected string Type()
+    public string Type()
     {
-        return type;
+        return type.ToString();
+    }
+
+    public MissionController.Type GetEnumType()
+    {
+        return this.type;
+    }
+
+    public float GetReproTime()
+    {
+        return Random.Range(minReproTime, maxReproTime);
     }
 
     //setters
@@ -43,15 +53,9 @@ public class Raccoon //: MonoBehaviour
     //the bins need to tell the raccoons if they can breed?
 
     //make more raccoons!
-    protected int Multiply()
+    public int Multiply()
     {
         int babies = Random.Range(minReproRate, maxReproRate);
-
-        if (MissionController.breedEventHandler != null)
-        {
-            // Call all the methods that have subscribed to the delegate
-            MissionController.breedEventHandler(this, babies);
-        }
 
         return babies;
     }
