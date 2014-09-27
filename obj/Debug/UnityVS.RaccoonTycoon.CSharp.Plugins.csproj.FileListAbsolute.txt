@@ -1,0 +1,15 @@
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\ProBuilderCore.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\ProBuilderMeshOps.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\ProCore.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\SixBySeven.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\obj\Debug\UnityVS.RaccoonTycoon.CSharp.Plugins.csprojResolveAssemblyReference.cache
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\obj\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\obj\Debug\Assembly-CSharp-firstpass.pdb

@@ -1,0 +1,16 @@
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\ProBuilderCore.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\ProBuilderMeshOps.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\ProCore.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\SixBySeven.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\UnityEditor.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\UnityEngine.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\UnityEngine.UI.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\Mono.Cecil.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\nunit.framework.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\Unity.DataContract.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\obj\Debug\Assembly-CSharp-firstpass-vs.csprojResolveAssemblyReference.cache
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\obj\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\Vivian\Documents\GitHub\RaccoonTycoon\obj\Debug\Assembly-CSharp-firstpass.pdb

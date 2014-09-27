@@ -12,6 +12,8 @@ public class Shoppe : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
+        sellButton.onClick.AddListener(SellRaccoon);
+
         int startBuyPrice = 5;
         int startSellPrice = 3;
 
@@ -33,26 +35,31 @@ public class Shoppe : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-	
+
 	}
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect(20, 40, 80, 20), "Sell Raccoon"))
-        {
-            SellRaccoon(MissionController.Instance.GetCurrentBin().GetRaccoon());
-        }
+
     }
 
-    int SellRaccoon(Raccoon raccoon)
+    public void SellRaccoon()
     {
+        //I guess just assume the object is a raccoon since there's no way to check easily
+        Raccoon replacementRaccoon = null; // (Raccoon)raccoon;
+
         if (MissionController.sellEventHandler != null)
         {
             // Call all the methods that have subscribed to the delegate
-            MissionController.sellEventHandler(raccoon, 1);
+            MissionController.sellEventHandler(replacementRaccoon, sellPrice[(int)replacementRaccoon.GetEnumType()]);
         }
 
         //how to get the number value based on enum?
+        //FindSellPrice(replacementRaccoon);
+    }
+
+    int FindSellPrice(Raccoon raccoon)
+    {
         return sellPrice[(int)raccoon.GetEnumType()];
     }
 }

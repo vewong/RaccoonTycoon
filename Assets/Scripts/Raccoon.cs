@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Raccoon //: MonoBehaviour 
+public class Raccoon : MonoBehaviour
 {
 
     MissionController.Type type;
@@ -9,7 +9,7 @@ public class Raccoon //: MonoBehaviour
     int minReproRate, maxReproRate;
 
 	// constructor
-    public Raccoon(MissionController.Type myBreed, float minTime, float maxTime, int minOffspring, int maxOffspring)
+    public void Initialize(MissionController.Type myBreed, float minTime, float maxTime, int minOffspring, int maxOffspring)
     {
         type = myBreed;
         minReproTime = minTime;
