@@ -38,12 +38,13 @@ public class Bin : MonoBehaviour
     void OnEnable()
     {
         MissionController.sellEventHandler += HandleSellEvent;
+        MissionController.buyEventHandler += HandleBuyEvent;
     }
 
     void OnDisable()
     {
         MissionController.sellEventHandler -= HandleSellEvent;
-        
+        MissionController.buyEventHandler -= HandleBuyEvent;
     }
 
     //getter
@@ -57,6 +58,12 @@ public class Bin : MonoBehaviour
         return currRaccoon;
     }
 
+    public int GetCapacity()
+    {
+        return maxRaccoons;
+    }
+
+    //setters
     void SetCapacity(int capacity)
     {
         maxRaccoons = capacity;
@@ -94,5 +101,10 @@ public class Bin : MonoBehaviour
         {
             currRaccoons--;
         }
+    }
+
+    void HandleBuyEvent(int buyPrice)
+    {
+        currRaccoons++;
     }
 }

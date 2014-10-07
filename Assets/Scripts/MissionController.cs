@@ -20,11 +20,19 @@ public class MissionController : MonoBehaviour
         }
     }
 
-    public delegate void SellEvent(Raccoon raccoonSold, int numSold);
+    public delegate void SellEvent(Raccoon raccoonSold, int moneyEarned);
     public static SellEvent sellEventHandler;
+
+    public delegate void BuyEvent(int buyPrice);
+    public static BuyEvent buyEventHandler;
 
     public Text raccoonCountDisplay;
     public Text moneyDisplay;
+
+    public Button settingsButton;
+    public Button shopButton;
+
+    public Canvas shopUI;
 
     //each entry of this array will be the count of that type of raccoon
     //should try to set up an enum later
@@ -60,40 +68,59 @@ public class MissionController : MonoBehaviour
     int numTypes = 25;
 
     //font animation
-    int displayNum;
+    //int displayNum;
     int moneys;
 
     //bins
-    GameObject starterBinObject;
+    GameObject starterBinObject, starterRaccoonObject;
     Bin starterBin;
+    Raccoon starterRaccoon;
 
     // Use this for initialization
     void Start()
     {
+        //set up the shop button
+        if (shopButton != null)
+        {
+            shopButton.onClick.AddListener(delegate { OpenShop(); });
+        }
+        else
+        {
+            Debug.Log("Shop button NULL!");
+        }
+
+        //PROTOTYPE STUFF
         starterBinObject = new GameObject("Starter Bin");
         starterBin = starterBinObject.AddComponent<Bin>();
 
-        starterBin.Initialize(new Raccoon(Type.trash, 3f, 5f, 2, 4), 25);
+        starterRaccoonObject = new GameObject("Starter Raccoon");
+        starterRaccoon = starterRaccoonObject.AddComponent<Raccoon>();
+        starterRaccoon.Initialize(Type.trash, 3f, 5f, 2, 4);
 
-        displayNum = starterBin.GetRaccoonsInBin();
-        moneys = 200;
+        starterBin.Initialize(starterRaccoon, 25);
+
+        //displayNum = starterBin.GetRaccoonsInBin();
+        moneys = 3;
     }
 
     void OnEnable()
     {
         sellEventHandler += HandleSellEvent;
+        buyEventHandler += HandleBuyEvent;
     }
 
     void OnDisable()
     {
         sellEventHandler -= HandleSellEvent;
-
+        buyEventHandler -= HandleBuyEvent;
     }
 
     void OnGUI()
     {
         raccoonCountDisplay.text = "Raccoons: " + starterBin.GetRaccoonsInBin();
         moneyDisplay.text = "$" + moneys;
+
+        
     }
 
     private void Awake()
@@ -121,8 +148,37 @@ public class MissionController : MonoBehaviour
         return starterBin;
     }
 
+    public int CheckMoney()
+    {
+        return moneys;
+    }
+
+    public T NumToEnum<T>(int number)
+    {
+        return (T)Type.ToObject(typeof(T), number);
+    }
+
     void HandleSellEvent(Raccoon parent, int price)
     {
         moneys += price;
+    }
+
+    void HandleBuyEvent(int buyPrice)
+    {
+        moneys -= buyPrice;
+    }
+
+    void OpenShop()
+    {
+        //if the shop button is clicked and the shop is inactive, activate the UI
+        if (shopUI.enabled == false)
+        {
+            shopUI.enabled = true;
+        }
+        // if the shop button is clicked but the shop is active, deactivate it.
+        else
+        {
+            shopUI.enabled = false;
+        }
     }
 }
