@@ -6,11 +6,12 @@ using System.Collections.Generic;
 public class Shoppe : MonoBehaviour
 {
     int[] buyPrice, sellPrice, powerUpPrice;
-    string powerUps;
+    string[] powerUps;
 
-    public Button sellButton, buyButton, exitButton;
+    public Button sellButton, buyButton, exitButton, mainTab, upgradesTab;
     public AudioClip sellSound, buySound;
-    public GameObject raccoonDisplay, scrollableContentContainer;
+    public GameObject raccoonDisplay, scrollableContentContainer, raccoonTabObject, upgradesTabObject;
+    //public Text moneyDisplay;
 
     // Use this for initialization
     void Start()
@@ -45,6 +46,26 @@ public class Shoppe : MonoBehaviour
             Debug.Log("Exit button NULL!");
         }
 
+        //set up the main shop tab button
+        if (mainTab != null)
+        {
+            mainTab.onClick.AddListener(delegate { OpenRaccoonTab(); });
+        }
+        else
+        {
+            Debug.Log("Raccoon tab button NULL!");
+        }
+
+        //set up the upgrades tab button
+        if (upgradesTab != null)
+        {
+            upgradesTab.onClick.AddListener(delegate { OpenUpgradesTab(); });
+        }
+        else
+        {
+            Debug.Log("Upgrades tab NULL!");
+        }
+
         int startBuyPrice = 5;
         int startSellPrice = 3;
 
@@ -54,29 +75,27 @@ public class Shoppe : MonoBehaviour
         List<Text> displayStrings = new List<Text>();
 
         //populate buy and sell price arrays, initialize a whole bunch of shop entries
-        for (int i = 0; i < buyPrice.Length; i++)
+        for (int i = 0; i < buyPrice.Length-1; i++)
         {
             buyPrice[i] = startBuyPrice;
             sellPrice[i] = startSellPrice;
 
-            startBuyPrice *= startBuyPrice;
-            startSellPrice *= startSellPrice;
+            startBuyPrice *= 2;
+            startSellPrice *= 2;
 
             GameObject tempObject;
             tempObject = Instantiate(raccoonDisplay) as GameObject;
             tempObject.transform.parent = scrollableContentContainer.transform;
 
-            raccoonDisplay.GetComponentsInChildren<Text>(displayStrings);
-
-            for (int j = 0; j < displayStrings.Count; j++)
-            {
-                Debug.Log("index " + j + ": " + displayStrings[j].text);
-            }
+            tempObject.GetComponentsInChildren<Text>(displayStrings);
 
             //assuming the first text is the name and the second is the price display
             displayStrings[0].text = (MissionController.Instance.NumToEnum<MissionController.Type>(i)).ToString();
             displayStrings[1].text = "$" + buyPrice[i];
         }
+
+        //now the original prefab isn't needed, so deactivate it
+        raccoonDisplay.SetActive(false);
     }
 
     // Update is called once per frame
@@ -156,5 +175,32 @@ public class Shoppe : MonoBehaviour
         {
             Debug.Log("Shop canvas not found!");
         }
+    }
+
+    //Open the upgrade tab/section of the store on button press
+    void OpenUpgradesTab()
+    {
+        //deactivate the upgrade tab button once the actual tab has been opened
+        upgradesTab.enabled = false;
+
+        //swap the active tabs
+        raccoonTabObject.SetActive(false);
+        upgradesTabObject.SetActive(true);
+
+        //enable the main shop button/tab so you can switch back
+        mainTab.enabled = true;
+    }
+
+    //Open the main/raccoon tab/section of the store on button press
+    void OpenRaccoonTab()
+    {
+        //disable the main tab/button now that it's opening
+        mainTab.enabled = false;
+
+        //swap active tabs
+        upgradesTabObject.SetActive(false);
+        raccoonTabObject.SetActive(true);
+
+        upgradesTab.enabled = true;
     }
 }
