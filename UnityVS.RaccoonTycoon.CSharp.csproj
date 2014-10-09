@@ -75,6 +75,7 @@
     <Compile Include="Assets\ProCore\Prototype\Scripts\RebuildMeshOnWake.cs" />
     <Compile Include="Assets\Scripts\Bin.cs" />
     <Compile Include="Assets\Scripts\BounceAnimation.cs" />
+    <Compile Include="Assets\Scripts\HighlightTest.cs" />
     <Compile Include="Assets\Scripts\MissionController.cs" />
     <Compile Include="Assets\Scripts\Raccoon.cs" />
     <Compile Include="Assets\Scripts\Shoppe.cs" />

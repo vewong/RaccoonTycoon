@@ -33,6 +33,7 @@ public class MissionController : MonoBehaviour
     public Button shopButton;
 
     public Canvas shopUI;
+    public GameObject binArea;
 
     //each entry of this array will be the count of that type of raccoon
     //should try to set up an enum later
