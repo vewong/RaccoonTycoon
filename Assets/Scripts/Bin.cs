@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Bin : MonoBehaviour 
 {
-    //magic numbers!
     Raccoon currRaccoon;
     int maxRaccoons, currRaccoons;
     //List<int> pairOfRaccoons = new List<int>();
     float timeToNextBreed;
+    public Text binName, raccoonCountText;
+    public Button sellButton; 
 
 	// Use this for initialization
 	void Start () 
@@ -20,6 +22,21 @@ public class Bin : MonoBehaviour
         currRaccoons = 2;
 
         //timeToNextBreed = currRaccoon.GetReproTime();
+
+        if (binName == null)
+        {
+            Debug.Log("Bin name left blank");
+        }
+
+        //set up the sell button
+        if (sellButton != null)
+        {
+            sellButton.onClick.AddListener(delegate { Shoppe.Instance.SellRaccoon(); });
+        }
+        else
+        {
+            Debug.Log("Sell button NULL!");
+        }
 	}
 
     public void Initialize(Raccoon raccoonType, int capacity, int raccoonCount)
@@ -31,6 +48,7 @@ public class Bin : MonoBehaviour
 
     public void Initialize(Raccoon raccoonType, int capacity)
     {
+        Debug.Log("Initialize");
         currRaccoon = raccoonType;
         maxRaccoons = capacity;
     }
@@ -93,6 +111,27 @@ public class Bin : MonoBehaviour
         }
 	}
 
+    void OnGUI()
+    {
+        if (currRaccoon != null)
+        {
+            binName.text = currRaccoon.Type();
+        }
+        else
+        {
+            binName.text = "None";
+        }
+
+        if (raccoonCountText != null)
+        {
+            raccoonCountText.text = "Raccoons: " + currRaccoons;
+        }
+        else
+        {
+            raccoonCountText.text = "ERRORERRORERROR";
+        }
+    }
+
     //other methods
     void HandleSellEvent(Raccoon parent, int price)
     {
@@ -107,4 +146,19 @@ public class Bin : MonoBehaviour
     {
         currRaccoons++;
     }
+
+    void OnMouseEnter()
+    {
+        //Debug.Log("Hello!");
+
+        if (MissionController.hoverEventHandler != null)
+        {
+            MissionController.hoverEventHandler(this, null);
+        }
+    }
+
+    //void OnMouseExit()
+    //{
+    //    Debug.Log("Goodbye!");
+    //}
 }

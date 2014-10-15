@@ -26,17 +26,19 @@ public class MissionController : MonoBehaviour
     public delegate void BuyEvent(int buyPrice);
     public static BuyEvent buyEventHandler;
 
-    public Text raccoonCountDisplay;
-    public Text moneyDisplay;
+    public delegate void HoverEvent(Bin hoveredBin, ShopRaccoon hoveredRaccoon);
+    public static HoverEvent hoverEventHandler;
 
-    public Button settingsButton;
-    public Button shopButton;
+    public Text raccoonCountDisplay, moneyDisplay;
+
+    public Button settingsButton, shopButton;
 
     public Canvas shopUI;
     public GameObject binArea;
+    public Bin binPrefab;
 
-    //each entry of this array will be the count of that type of raccoon
-    //should try to set up an enum later
+    //probably need a power up array/key value thingie
+
     public enum Type
     {
         trash = 0,
@@ -63,10 +65,9 @@ public class MissionController : MonoBehaviour
         universe = 21,
         blackhole = 22,
         whitehole = 23,
-        darkmatter = 24
+        darkmatter = 24,
+        count
     };
-    //MAGIC NUMBER, CHANGE THIS IF YOU CHANGE THE ENUM
-    int numTypes = 25;
 
     //font animation
     //int displayNum;
@@ -74,8 +75,9 @@ public class MissionController : MonoBehaviour
 
     //bins
     GameObject starterBinObject, starterRaccoonObject;
-    Bin starterBin;
+    Bin currBin;
     Raccoon starterRaccoon;
+    ShopRaccoon currShopRaccoon;
 
     // Use this for initialization
     void Start()
@@ -90,17 +92,12 @@ public class MissionController : MonoBehaviour
             Debug.Log("Shop button NULL!");
         }
 
-        //PROTOTYPE STUFF
-        starterBinObject = new GameObject("Starter Bin");
-        starterBin = starterBinObject.AddComponent<Bin>();
-
         starterRaccoonObject = new GameObject("Starter Raccoon");
         starterRaccoon = starterRaccoonObject.AddComponent<Raccoon>();
         starterRaccoon.Initialize(Type.trash, 3f, 5f, 2, 4);
 
-        starterBin.Initialize(starterRaccoon, 25);
-
-        //displayNum = starterBin.GetRaccoonsInBin();
+        AddBin(starterRaccoon);
+        
         moneys = 3;
     }
 
@@ -108,20 +105,19 @@ public class MissionController : MonoBehaviour
     {
         sellEventHandler += HandleSellEvent;
         buyEventHandler += HandleBuyEvent;
+        hoverEventHandler += HandleHoverEvent;
     }
 
     void OnDisable()
     {
         sellEventHandler -= HandleSellEvent;
         buyEventHandler -= HandleBuyEvent;
+        hoverEventHandler -= HandleHoverEvent;
     }
 
     void OnGUI()
     {
-        raccoonCountDisplay.text = "Raccoons: " + starterBin.GetRaccoonsInBin();
         moneyDisplay.text = "$" + moneys;
-
-        
     }
 
     private void Awake()
@@ -137,16 +133,15 @@ public class MissionController : MonoBehaviour
         }
     }
 
+    //getters
     public int GetNumTypes()
     {
-        return numTypes;
+        return (int)Type.count;
     }
 
     public Bin GetCurrentBin()
     {
-        //eventually need some code in here about what bin the player is viewing
-        //but for now...
-        return starterBin;
+        return currBin;
     }
 
     public int CheckMoney()
@@ -154,6 +149,12 @@ public class MissionController : MonoBehaviour
         return moneys;
     }
 
+    public ShopRaccoon GetCurrentShopRaccoon()
+    {
+        return currShopRaccoon;
+    }
+
+    //other methods
     public T NumToEnum<T>(int number)
     {
         return (T)Type.ToObject(typeof(T), number);
@@ -180,6 +181,39 @@ public class MissionController : MonoBehaviour
         else
         {
             shopUI.enabled = false;
+        }
+    }
+
+    void AddBin(Raccoon sampleRaccoon)
+    {
+       //create a new bin from the prefab bin
+       Bin newBin = Instantiate(binPrefab) as Bin;
+
+        //set the new bin to be a child of the bin layout element
+       newBin.gameObject.transform.parent = binArea.transform;
+       newBin.Initialize(starterRaccoon, 25);
+
+       //set the current bin to the bin just created
+       if (newBin == null)
+       {
+           Debug.Log("Bin null!");
+       }
+       else
+       {
+           currBin = newBin;
+       }
+    }
+
+    void HandleHoverEvent(Bin hoveredBin, ShopRaccoon hoveredRaccoon)
+    {
+        //might need to add in other types of things that can be hovered over later
+        if (hoveredBin != null)
+        {
+            currBin = hoveredBin;
+        }
+        else if (hoveredRaccoon != null)
+        {
+            currShopRaccoon = hoveredRaccoon;
         }
     }
 }

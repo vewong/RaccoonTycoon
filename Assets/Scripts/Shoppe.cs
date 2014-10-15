@@ -5,37 +5,44 @@ using System.Collections.Generic;
 
 public class Shoppe : MonoBehaviour
 {
+    private static Shoppe instance;
+    public static Shoppe Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                Debug.LogError("No instance of Shoppe exists in the scene!");
+            }
+
+            return instance;
+        }
+    }
+
     int[] buyPrice, sellPrice, powerUpPrice;
     string[] powerUps;
 
-    public Button sellButton, buyButton, exitButton, mainTab, upgradesTab;
+    public Button exitButton, mainTab, upgradesTab;
     public AudioClip sellSound, buySound;
     public GameObject raccoonDisplay, scrollableContentContainer, raccoonTabObject, upgradesTabObject;
     //public Text moneyDisplay;
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogError("There can only be one!");
+            Destroy(this);
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
-        //set up the sell button
-        if (sellButton != null)
-        {
-            sellButton.onClick.AddListener(delegate { SellRaccoon(); });
-        }
-        else
-        {
-            Debug.Log("Sell button NULL!");
-        }
-
-        //set up the buy button
-        if (buyButton != null)
-        {
-            buyButton.onClick.AddListener(delegate { BuyRaccoon(); });
-        }
-        else
-        {
-            Debug.Log("Sell button NULL!");
-        }
-
         //set up the exit button
         if (exitButton != null)
         {
@@ -69,13 +76,13 @@ public class Shoppe : MonoBehaviour
         int startBuyPrice = 5;
         int startSellPrice = 3;
 
-        buyPrice = new int[MissionController.Instance.GetNumTypes()];
-        sellPrice = new int[MissionController.Instance.GetNumTypes()];
+        buyPrice = new int[MissionController.Instance.GetNumTypes()-1];
+        sellPrice = new int[MissionController.Instance.GetNumTypes()-1];
 
         List<Text> displayStrings = new List<Text>();
 
         //populate buy and sell price arrays, initialize a whole bunch of shop entries
-        for (int i = 0; i < buyPrice.Length-1; i++)
+        for (int i = 0; i < buyPrice.Length; i++)
         {
             buyPrice[i] = startBuyPrice;
             sellPrice[i] = startSellPrice;
@@ -110,29 +117,36 @@ public class Shoppe : MonoBehaviour
         Bin currentBin = MissionController.Instance.GetCurrentBin();
         int raccoonCount = currentBin.GetRaccoonsInBin();
         Raccoon typeRaccoon = currentBin.GetRaccoon();
+        ShopRaccoon currentShopRaccoon = MissionController.Instance.GetCurrentShopRaccoon();
 
-        if (raccoonCount <= 0)
+        if (currentBin != null)
         {
-            sellButton.enabled = false;
-        }
-        else
-        {
-            sellButton.enabled = true;
+            if (raccoonCount <= 0)
+            {
+                currentBin.sellButton.enabled = false;
+            }
+            else
+            {
+                currentBin.sellButton.enabled = true;
+            }
         }
 
-        int currentFunds = MissionController.Instance.CheckMoney();
+        if (currentShopRaccoon != null)
+        { 
+            int currentFunds = MissionController.Instance.CheckMoney();
 
-        if (currentFunds <= 0 || buyPrice[(int)typeRaccoon.GetEnumType()] > currentFunds)
-        {
-            buyButton.enabled = false;
-        }
-        else if (currentBin.GetRaccoonsInBin() == currentBin.GetCapacity())
-        {
-            buyButton.enabled = false;
-        }
-        else
-        {
-            buyButton.enabled = true;
+            if (currentFunds <= 0 || buyPrice[(int)typeRaccoon.GetEnumType()] > currentFunds)
+            {
+                currentShopRaccoon.buyButton.enabled = false;
+            }
+            else if (currentBin.GetRaccoonsInBin() == currentBin.GetCapacity())
+            {
+                currentShopRaccoon.buyButton.enabled = false;
+            }
+            else
+            {
+                currentShopRaccoon.buyButton.enabled = true;
+            }
         }
     }
 
@@ -151,16 +165,19 @@ public class Shoppe : MonoBehaviour
 
     public void BuyRaccoon()
     {
-        //hopefully a raccoon type being bought will get passed in?
-        Bin currentBin = MissionController.Instance.GetCurrentBin();
+        //get the raccoon the player is trying to buy from the shop
+        ShopRaccoon currentRaccoon = MissionController.Instance.GetCurrentShopRaccoon();
 
-        if (MissionController.buyEventHandler != null)
+        if (MissionController.buyEventHandler != null && currentRaccoon != null)
         {
             // Call all the methods that have subscribed to the delegate
-            MissionController.buyEventHandler(buyPrice[(int)currentBin.GetRaccoon().GetEnumType()]);
+            MissionController.buyEventHandler(buyPrice[(int)currentRaccoon.GetRaccoonType()]);
+            audio.PlayOneShot(buySound);
         }
-
-        audio.PlayOneShot(buySound);
+        else
+        {
+            Debug.Log("current shop raccoon is null!... or maybe no one is subscribed to buyEventHandler");
+        }
     }
 
     void CloseShop()

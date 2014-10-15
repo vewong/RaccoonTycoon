@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\HighlightTest.cs" />
      <Compile Include="Assets\Scripts\MissionController.cs" />
      <Compile Include="Assets\Scripts\Raccoon.cs" />
+     <Compile Include="Assets\Scripts\ShopRaccoon.cs" />
      <Compile Include="Assets\Scripts\Shoppe.cs" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
