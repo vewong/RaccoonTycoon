@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System;
 
-public class ShopRaccoon : MonoBehaviour 
+public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
 {
     public Button buyButton;
     public Text raccoonText;
@@ -45,9 +46,9 @@ public class ShopRaccoon : MonoBehaviour
     }
 
     //other methods
-    void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData pointerData)
     {
-        Debug.Log("Shop raccoon!!!");
+        Debug.Log("Shop " + raccoonType + " " + pointerData.position);
 
         if (MissionController.hoverEventHandler != null)
         {
