@@ -74,6 +74,7 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
 
     public void RevealPortrait()
     {
+        Debug.LogWarning("Portrait! " + raccoonType);
         //reveal the current raccoon's correct portrait
         raccoonPortrait.sprite = portraits[(int)raccoonType];
     }

@@ -115,13 +115,16 @@ public class Shoppe : MonoBehaviour
     {
         //enable or disable buttons based on available raccoons/money
         Bin currentBin = MissionController.Instance.GetCurrentBin();
-        int raccoonCount = currentBin.GetRaccoonsInBin();
-        Raccoon typeRaccoon = currentBin.GetRaccoon();
+        int currentBinRaccoonCount = currentBin.GetRaccoonsInBin();
+        Raccoon currentBinRaccoon = currentBin.GetRaccoon();
+
         ShopRaccoon currentShopRaccoon = MissionController.Instance.GetCurrentShopRaccoon();
+
+        Debug.Log("Bin " + (currentBin != null ? currentBin.GetRaccoon().Type() : "null") + " Raccoon " + (currentShopRaccoon != null ? currentShopRaccoon.GetRaccoonType().ToString() : "null"));
 
         if (currentBin != null)
         {
-            if (raccoonCount <= 0)
+            if (currentBinRaccoonCount <= 0)
             {
                 currentBin.sellButton.enabled = false;
             }
@@ -132,27 +135,19 @@ public class Shoppe : MonoBehaviour
         }
 
         if (currentShopRaccoon != null)
-        { 
+        {
             int currentFunds = MissionController.Instance.CheckMoney();
+            Debug.Log("Moneys: " + currentFunds + "  Current Price: " + buyPrice[(int)currentShopRaccoon.GetRaccoonType()]);
 
-            if (currentFunds <= 0 || buyPrice[(int)typeRaccoon.GetEnumType()] > currentFunds)
+            if (currentFunds > buyPrice[(int)currentShopRaccoon.GetRaccoonType()] && currentBinRaccoonCount < currentBin.GetCapacity())
             {
-                currentShopRaccoon.buyButton.enabled = false;
-
-                Debug.Log("Moneys: " + currentFunds + "  Current Price: " + buyPrice[(int)typeRaccoon.GetEnumType()]);
-            }
-            else if (currentBin.GetRaccoonsInBin() == currentBin.GetCapacity())
-            {
-                currentShopRaccoon.buyButton.enabled = false;
+                currentShopRaccoon.buyButton.enabled = true;
+                //hopefully this will change the portrait when there's enough money in the baaank
+                currentShopRaccoon.RevealPortrait();
             }
             else
             {
-                Debug.Log("Moneys: " + currentFunds + "  Current Price: " + buyPrice[(int)typeRaccoon.GetEnumType()]);
-
-                currentShopRaccoon.buyButton.enabled = true;
-
-                //hopefully this will change the portrait when there's enough money in the baaank
-                currentShopRaccoon.RevealPortrait();
+                currentShopRaccoon.buyButton.enabled = false;
             }
         }
     }
