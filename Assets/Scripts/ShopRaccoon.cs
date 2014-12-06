@@ -8,6 +8,8 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
 {
     public Button buyButton;
     public Text raccoonText;
+    public Image raccoonPortrait;
+    public Sprite[] portraits;
 
     MissionController.Type raccoonType;
 
@@ -32,6 +34,14 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
             //Debug.Log("Raccoon text: " + raccoonText.text + "\nRaccoon type: " + raccoonType.ToString());
         }
 	}
+
+    void Awake()
+    {
+        if (portraits.Length < (int)MissionController.Type.count)
+        {
+            Debug.LogError("Portrait sprites not assigned!");
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -45,6 +55,12 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
         return raccoonType;
     }
 
+    //setters
+    public void SetRaccoonPortrait (Sprite newPortrait)
+    {
+        raccoonPortrait.sprite = newPortrait;
+    }
+
     //other methods
     public void OnPointerEnter(PointerEventData pointerData)
     {
@@ -54,5 +70,11 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
         {
             MissionController.hoverEventHandler(null, this);
         }
+    }
+
+    public void RevealPortrait()
+    {
+        //reveal the current raccoon's correct portrait
+        raccoonPortrait.sprite = portraits[(int)raccoonType];
     }
 }

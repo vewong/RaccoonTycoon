@@ -25,7 +25,7 @@ public class Shoppe : MonoBehaviour
     public Button exitButton, mainTab, upgradesTab;
     public AudioClip sellSound, buySound;
     public GameObject raccoonDisplay, scrollableContentContainer, raccoonTabObject, upgradesTabObject;
-    //public Text moneyDisplay;
+    public Sprite mysteryRaccoonSprite;
 
     private void Awake()
     {
@@ -138,6 +138,8 @@ public class Shoppe : MonoBehaviour
             if (currentFunds <= 0 || buyPrice[(int)typeRaccoon.GetEnumType()] > currentFunds)
             {
                 currentShopRaccoon.buyButton.enabled = false;
+
+                Debug.Log("Moneys: " + currentFunds + "  Current Price: " + buyPrice[(int)typeRaccoon.GetEnumType()]);
             }
             else if (currentBin.GetRaccoonsInBin() == currentBin.GetCapacity())
             {
@@ -145,7 +147,12 @@ public class Shoppe : MonoBehaviour
             }
             else
             {
+                Debug.Log("Moneys: " + currentFunds + "  Current Price: " + buyPrice[(int)typeRaccoon.GetEnumType()]);
+
                 currentShopRaccoon.buyButton.enabled = true;
+
+                //hopefully this will change the portrait when there's enough money in the baaank
+                currentShopRaccoon.RevealPortrait();
             }
         }
     }
