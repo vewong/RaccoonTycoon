@@ -222,4 +222,10 @@ public class Shoppe : MonoBehaviour
 
         upgradesTab.enabled = true;
     }
+
+    //get the buy price of a raccoon
+    public int GetBuyPrice(MissionController.Type raccoonType)
+    {
+        return buyPrice[(int)raccoonType];
+    }
 }

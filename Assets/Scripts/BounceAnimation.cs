@@ -7,7 +7,7 @@ public class BounceAnimation : MonoBehaviour
     public Transform position;
 
     float jumpTime;
-    public float bounceTrigger;
+    public bool bounceTrigger;
 
 	// Use this for initialization
 	void Start () 
@@ -18,6 +18,19 @@ public class BounceAnimation : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-	    
+	    if (jumpTime <= 0)
+        {
+            bounceTrigger = true;
+            Debug.Log("Hop!");
+        }
+        else
+        {
+            if (bounceTrigger)
+            {
+                bounceTrigger = false;
+            }
+
+            jumpTime -= Time.deltaTime;
+        }
 	}
 }

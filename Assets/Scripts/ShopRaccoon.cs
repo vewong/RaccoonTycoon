@@ -11,6 +11,9 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
     public Image raccoonPortrait;
     public Sprite[] portraits;
 
+    public delegate void SellEvent(Raccoon raccoonSold, int moneyEarned);
+    public static SellEvent sellEventHandler;
+
     MissionController.Type raccoonType;
 
 	// Use this for initialization
@@ -59,6 +62,20 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
     public void SetRaccoonPortrait (Sprite newPortrait)
     {
         raccoonPortrait.sprite = newPortrait;
+    }
+
+    //delegates
+    void HandleSellEvent(Raccoon parent, int price)
+    {
+        //check if this ShopRaccoon's buy price is now lower than the current money total
+        if (Shoppe.Instance.GetBuyPrice(GetRaccoonType()) <= MissionController.Instance.CheckMoney())
+        {
+            //reveal this raccoon's portrait, if so
+            RevealPortrait();
+        }
+
+        //hide portraits if you don't have enough for those raccoons?
+        //probably not...
     }
 
     //other methods
