@@ -1,0 +1,4 @@
+﻿using UnityEngine;using UnityEditor;using System.IO;using System.Collections;public class UnityVSExtensions : MonoBehaviour {    [MenuItem("Visual Studio Tools/Open Solution from OS X")]    static void OpenSolutionDirect()    {        string directory = Application.dataPath;        string projectName = PlayerSettings.productName;        string solutionPath = string.Format("{0}/../UnityVS.{1}.sln", directory, projectName);        try        {
+            Debug.Log("Opening " + solutionPath);
+            System.Diagnostics.Process.Start(solutionPath);        }        catch (System.Exception)        {
+            Debug.LogError("Solution not found at " + solutionPath);        }    }}
