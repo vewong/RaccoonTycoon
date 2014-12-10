@@ -122,6 +122,7 @@
     <Compile Include="Assets\ProCore\Prototype\Editor\ProBuilderMenuItems.cs" />
     <Compile Include="Assets\ProCore\Prototype\Editor\pb_Preferences.cs" />
     <Compile Include="Assets\ProCore\Shared\About\Editor\pc_AboutWindow.cs" />
+    <Compile Include="Assets\UnityVS\Editor\UnityVSExtensions.cs" />
     <None Include="Assets\ProCore\Prototype\About\changelog.txt" />
     <None Include="Assets\ProCore\Prototype\About\Credits.txt" />
     <None Include="Assets\ProCore\Prototype\About\pc_AboutEntry_ProBuilder.txt" />

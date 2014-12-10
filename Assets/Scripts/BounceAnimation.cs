@@ -5,6 +5,8 @@ public class BounceAnimation : MonoBehaviour
 {
     public Sprite mySprite;
     public Transform position;
+    public Animator animator;
+    public AudioClip hopSound;
 
     float jumpTime;
     public bool bounceTrigger;
@@ -12,7 +14,16 @@ public class BounceAnimation : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        jumpTime = 30f;
+        jumpTime = Random.Range(5, 15);
+
+        if (animator != null)
+        {
+            //animator = GetComponent<Animator>();
+        }
+        else
+        {
+            Debug.LogError("Help! Someone forgot to set the animator!");
+        }
 	}
 	
 	// Update is called once per frame
@@ -22,6 +33,9 @@ public class BounceAnimation : MonoBehaviour
         {
             bounceTrigger = true;
             Debug.Log("Hop!");
+            jumpTime = Random.Range(5, 15);
+
+            audio.PlayOneShot(hopSound);
         }
         else
         {
@@ -32,5 +46,7 @@ public class BounceAnimation : MonoBehaviour
 
             jumpTime -= Time.deltaTime;
         }
+
+        animator.SetBool("bounceTrigger", bounceTrigger);
 	}
 }

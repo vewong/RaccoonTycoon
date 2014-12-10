@@ -120,7 +120,7 @@ public class Shoppe : MonoBehaviour
 
         ShopRaccoon currentShopRaccoon = MissionController.Instance.GetCurrentShopRaccoon();
 
-        Debug.Log("Bin " + (currentBin != null ? currentBin.GetRaccoon().Type() : "null") + " Raccoon " + (currentShopRaccoon != null ? currentShopRaccoon.GetRaccoonType().ToString() : "null"));
+        //Debug.Log("Bin " + (currentBin != null ? currentBin.GetRaccoon().Type() : "null") + " Raccoon " + (currentShopRaccoon != null ? currentShopRaccoon.GetRaccoonType().ToString() : "null"));
 
         if (currentBin != null)
         {
@@ -137,7 +137,6 @@ public class Shoppe : MonoBehaviour
         if (currentShopRaccoon != null)
         {
             int currentFunds = MissionController.Instance.CheckMoney();
-            Debug.Log("Moneys: " + currentFunds + "  Current Price: " + buyPrice[(int)currentShopRaccoon.GetRaccoonType()]);
 
             if (currentFunds > buyPrice[(int)currentShopRaccoon.GetRaccoonType()] && currentBinRaccoonCount < currentBin.GetCapacity())
             {
