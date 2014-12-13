@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\Raccoon.cs" />
     <Compile Include="Assets\Scripts\ShopRaccoon.cs" />
     <Compile Include="Assets\Scripts\Shoppe.cs" />
+    <Compile Include="Assets\Scripts\Upgrade.cs" />
     <None Include="Assets\ProCore\Prototype\About\changelog.txt" />
     <None Include="Assets\ProCore\Prototype\About\Credits.txt" />
     <None Include="Assets\ProCore\Prototype\About\pc_AboutEntry_ProBuilder.txt" />

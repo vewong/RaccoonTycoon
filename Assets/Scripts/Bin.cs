@@ -153,7 +153,7 @@ public class Bin : MonoBehaviour
 
         if (MissionController.hoverEventHandler != null)
         {
-            MissionController.hoverEventHandler(this, null);
+            MissionController.hoverEventHandler(this, null, null);
         }
     }
 

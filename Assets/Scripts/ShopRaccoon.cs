@@ -85,7 +85,7 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
 
         if (MissionController.hoverEventHandler != null)
         {
-            MissionController.hoverEventHandler(null, this);
+            MissionController.hoverEventHandler(null, this, null);
         }
     }
 

@@ -22,9 +22,21 @@ public class Shoppe : MonoBehaviour
     int[] buyPrice, sellPrice, powerUpPrice;
     string[] powerUps;
 
+    public enum Upgrades
+    {
+        bin,
+        breedTimeDown,
+        reproNumUp,
+        binCapacityUp,
+        raccoonPriceUp,
+        autoSellMachine,
+        count
+    };
+
     public Button exitButton, mainTab, upgradesTab;
     public AudioClip sellSound, buySound;
-    public GameObject raccoonDisplay, scrollableContentContainer, raccoonTabObject, upgradesTabObject;
+    public GameObject raccoonDisplay, raccoonScrollableContentContainer, upgradesDisplay, upgradesContentContainer;
+    public GameObject raccoonTabObject, upgradesTabObject;
     public Sprite mysteryRaccoonSprite;
 
     private void Awake()
@@ -73,13 +85,71 @@ public class Shoppe : MonoBehaviour
             Debug.Log("Upgrades tab NULL!");
         }
 
+        //populate the upgrades
+        powerUps = new string[(int)Upgrades.count];
+        powerUpPrice = new int[powerUps.Length];
+        int startPowerUpsPrice = 100;
+
+        List<Text> displayStrings = new List<Text>();
+
+        for (int i = 0; i < powerUps.Length; i++)
+        {
+            //get the name of the upgrade based on the enum
+            string powerUpName;
+
+            switch ((Upgrades)i)
+            {
+                case Upgrades.bin:
+                    powerUpName = "New Bin";
+                    break;
+                case Upgrades.breedTimeDown:
+                    powerUpName = "Fertility Treatment";
+                    break;
+                case Upgrades.reproNumUp:
+                    powerUpName = "Incubators";
+                    break;
+                case Upgrades.raccoonPriceUp:
+                    powerUpName = "Glitter";
+                    break;
+                case Upgrades.binCapacityUp:
+                    powerUpName = "Bin Capacity";
+                    break;
+                case Upgrades.autoSellMachine:
+                    powerUpName = "Auto-sell Raccoons";
+                    break;
+                default:
+                    powerUpName = "???";
+                    break;
+            };
+
+            powerUps[i] = powerUpName;
+            //set the power up's price
+            powerUpPrice[i] = startPowerUpsPrice;
+
+            startPowerUpsPrice *= 2;
+
+            //add upgrade display to upgrades tab
+            GameObject tempObject;
+            tempObject = Instantiate(upgradesDisplay) as GameObject;
+            tempObject.transform.parent = upgradesContentContainer.transform;
+
+            tempObject.GetComponentsInChildren<Text>(displayStrings);
+
+            //assuming the first text is the name and the second is the price display
+            displayStrings[0].text = powerUps[i];
+            displayStrings[1].text = "$" + powerUpPrice[i];
+
+            //can set upgrade type here?
+        }
+
+        //deactivate the upgrades tab once finished
+        upgradesTabObject.SetActive(false);
+
         int startBuyPrice = 5;
         int startSellPrice = 3;
 
         buyPrice = new int[MissionController.Instance.GetNumTypes()-1];
         sellPrice = new int[MissionController.Instance.GetNumTypes()-1];
-
-        List<Text> displayStrings = new List<Text>();
 
         //populate buy and sell price arrays, initialize a whole bunch of shop entries
         for (int i = 0; i < buyPrice.Length; i++)
@@ -92,7 +162,7 @@ public class Shoppe : MonoBehaviour
 
             GameObject tempObject;
             tempObject = Instantiate(raccoonDisplay) as GameObject;
-            tempObject.transform.parent = scrollableContentContainer.transform;
+            tempObject.transform.parent = raccoonScrollableContentContainer.transform;
 
             tempObject.GetComponentsInChildren<Text>(displayStrings);
 
@@ -101,8 +171,9 @@ public class Shoppe : MonoBehaviour
             displayStrings[1].text = "$" + buyPrice[i];
         }
 
-        //now the original prefab isn't needed, so deactivate it
+        //now the original prefabs aren't needed, so deactivate them
         raccoonDisplay.SetActive(false);
+        upgradesDisplay.SetActive(false);
     }
 
     // Update is called once per frame
@@ -177,7 +248,25 @@ public class Shoppe : MonoBehaviour
         }
         else
         {
-            Debug.Log("current shop raccoon is null!... or maybe no one is subscribed to buyEventHandler");
+            Debug.LogError("current shop raccoon is null!... or maybe no one is subscribed to buyEventHandler");
+        }
+    }
+
+    public void BuyUpgrade()
+    {
+        Upgrade currentUpgrade = MissionController.Instance.GetCurrentUpgrade();
+
+        if (MissionController.buyUpgradeEventHandler != null && currentUpgrade != null)
+        {
+            //call all the methods subscribed to the delegate
+            MissionController.buyUpgradeEventHandler(powerUpPrice[(int)currentUpgrade.GetUpgradeType()]);
+            //play audio
+
+            //check upgrade type and apply changes to whatever needs changing.
+        }
+        else
+        {
+            Debug.LogError("No valid upgrade found! Or no one cares about upgrades...");
         }
     }
 

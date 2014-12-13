@@ -26,8 +26,11 @@ public class MissionController : MonoBehaviour
     public delegate void BuyEvent(int buyPrice);
     public static BuyEvent buyEventHandler;
 
-    public delegate void HoverEvent(Bin hoveredBin, ShopRaccoon hoveredRaccoon);
+    public delegate void HoverEvent(Bin hoveredBin, ShopRaccoon hoveredRaccoon, Upgrade hoveredUpgrade);
     public static HoverEvent hoverEventHandler;
+
+    public delegate void UpgradeEvent(int upgradePrice);
+    public static UpgradeEvent buyUpgradeEventHandler;
 
     public Text raccoonCountDisplay, moneyDisplay;
 
@@ -36,8 +39,6 @@ public class MissionController : MonoBehaviour
     public Canvas shopUI;
     public GameObject binArea;
     public Bin binPrefab;
-
-    //probably need a power up array/key value thingie
 
     public enum Type
     {
@@ -78,6 +79,7 @@ public class MissionController : MonoBehaviour
     Bin currBin;
     Raccoon starterRaccoon;
     ShopRaccoon currShopRaccoon;
+    Upgrade currUpgrade;
 
     // Use this for initialization
     void Start()
@@ -154,6 +156,11 @@ public class MissionController : MonoBehaviour
         return currShopRaccoon;
     }
 
+    public Upgrade GetCurrentUpgrade()
+    {
+        return currUpgrade;
+    }
+
     //other methods
     public T NumToEnum<T>(int number)
     {
@@ -204,7 +211,7 @@ public class MissionController : MonoBehaviour
        }
     }
 
-    void HandleHoverEvent(Bin hoveredBin, ShopRaccoon hoveredRaccoon)
+    void HandleHoverEvent(Bin hoveredBin, ShopRaccoon hoveredRaccoon, Upgrade hoveredUpgrade)
     {
         //might need to add in other types of things that can be hovered over later
         if (hoveredBin != null)
@@ -214,6 +221,10 @@ public class MissionController : MonoBehaviour
         else if (hoveredRaccoon != null)
         {
             currShopRaccoon = hoveredRaccoon;
+        }
+        else if(hoveredUpgrade != null)
+        {
+            currUpgrade = hoveredUpgrade;
         }
     }
 }
