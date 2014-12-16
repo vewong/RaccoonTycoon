@@ -212,8 +212,6 @@ public class Shoppe : MonoBehaviour
             if (currentFunds > buyPrice[(int)currentShopRaccoon.GetRaccoonType()] && currentBinRaccoonCount < currentBin.GetCapacity())
             {
                 currentShopRaccoon.buyButton.enabled = true;
-                //hopefully this will change the portrait when there's enough money in the baaank
-                currentShopRaccoon.RevealPortrait();
             }
             else
             {
@@ -254,6 +252,7 @@ public class Shoppe : MonoBehaviour
 
     public void BuyUpgrade()
     {
+        Debug.Log("Upgrade clicked!");
         Upgrade currentUpgrade = MissionController.Instance.GetCurrentUpgrade();
 
         if (MissionController.buyUpgradeEventHandler != null && currentUpgrade != null)

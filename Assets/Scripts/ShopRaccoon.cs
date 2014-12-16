@@ -11,8 +11,8 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
     public Image raccoonPortrait;
     public Sprite[] portraits;
 
-    public delegate void SellEvent(Raccoon raccoonSold, int moneyEarned);
-    public static SellEvent sellEventHandler;
+    //public delegate void SellEvent(Raccoon raccoonSold, int moneyEarned);
+    //public static SellEvent sellEventHandler;
 
     MissionController.Type raccoonType;
 
@@ -44,6 +44,16 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
         {
             Debug.LogError("Portrait sprites not assigned!");
         }
+    }
+
+    void OnEnable()
+    {
+        MissionController.sellEventHandler += HandleSellEvent;
+    }
+
+    void OnDisable()
+    {
+        MissionController.sellEventHandler -= HandleSellEvent;
     }
 	
 	// Update is called once per frame
@@ -91,7 +101,6 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
 
     public void RevealPortrait()
     {
-        Debug.LogWarning("Portrait! " + raccoonType);
         //reveal the current raccoon's correct portrait
         raccoonPortrait.sprite = portraits[(int)raccoonType];
     }

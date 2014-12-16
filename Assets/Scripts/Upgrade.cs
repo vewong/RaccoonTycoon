@@ -9,8 +9,7 @@ public class Upgrade : MonoBehaviour, IPointerEnterHandler
     public Button buyButton;
     public Text upgradeText;
 
-    //public delegate void SellEvent(Raccoon raccoonSold, int moneyEarned);
-    //public static SellEvent sellEventHandler;
+    int upgradedTimes = 1;
 
     Shoppe.Upgrades upgradeType;
     
@@ -36,18 +35,54 @@ public class Upgrade : MonoBehaviour, IPointerEnterHandler
                 case "New Bin":
                     upgradeType = Shoppe.Upgrades.bin;
                     break;
-
+                case "Fertility Treatment":
+                    upgradeType = Shoppe.Upgrades.breedTimeDown;
+                    break;
+                case "Incubators":
+                    upgradeType = Shoppe.Upgrades.reproNumUp;
+                    break;
+                case "Glitter":
+                    upgradeType = Shoppe.Upgrades.raccoonPriceUp;
+                    break;
+                case "Bin Capacity":
+                    upgradeType = Shoppe.Upgrades.binCapacityUp;
+                    break;
+                case "Auto-sell Raccoons":
+                    upgradeType = Shoppe.Upgrades.autoSellMachine;
+                    break;
+                default:
+                    Debug.LogError("Upgrade type missing!");
+                    break;
             }
-
-            //Debug.Log("Raccoon text: " + raccoonText.text + "\nRaccoon type: " + raccoonType.ToString());
         }
+
+        upgradeText.text = upgradeText.text + " " + upgradedTimes;
 	}
+
+    void OnEnable()
+    {
+        MissionController.buyUpgradeEventHandler += HandleUpgradeEvent;
+    }
+
+    void OnDisable()
+    {
+        MissionController.buyUpgradeEventHandler -= HandleUpgradeEvent;
+    }
 	
 	// Update is called once per frame
 	void Update () 
     {
-	
+
 	}
+
+    //delegates
+    void HandleUpgradeEvent(int buyPrice)
+    {
+        //determine type of upgrade
+
+        //increment the upgrade display name
+        //let's say they all start at 1 and go up from there?
+    }
 
     public void OnPointerEnter(PointerEventData pointerData)
     {

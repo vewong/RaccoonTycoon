@@ -72,7 +72,9 @@ public class MissionController : MonoBehaviour
 
     //font animation
     //int displayNum;
-    int moneys;
+
+    //DEBUG TAKE OUT FOR RELEASE
+    public int moneys;
 
     //bins
     GameObject starterBinObject, starterRaccoonObject;
@@ -108,6 +110,7 @@ public class MissionController : MonoBehaviour
         sellEventHandler += HandleSellEvent;
         buyEventHandler += HandleBuyEvent;
         hoverEventHandler += HandleHoverEvent;
+        buyUpgradeEventHandler += HandleUpgradeEvent;
     }
 
     void OnDisable()
@@ -115,6 +118,7 @@ public class MissionController : MonoBehaviour
         sellEventHandler -= HandleSellEvent;
         buyEventHandler -= HandleBuyEvent;
         hoverEventHandler -= HandleHoverEvent;
+        buyUpgradeEventHandler -= HandleUpgradeEvent;
     }
 
     void OnGUI()
@@ -226,5 +230,10 @@ public class MissionController : MonoBehaviour
         {
             currUpgrade = hoveredUpgrade;
         }
+    }
+
+    void HandleUpgradeEvent(int buyPrice)
+    {
+        moneys -= buyPrice;
     }
 }
