@@ -20,16 +20,16 @@ public class MissionController : MonoBehaviour
         }
     }
 
-    public delegate void SellEvent(Raccoon raccoonSold, int moneyEarned);
+    public delegate void SellEvent(Raccoon raccoonSold, float moneyEarned);
     public static SellEvent sellEventHandler;
 
-    public delegate void BuyEvent(int buyPrice);
+    public delegate void BuyEvent(float buyPrice);
     public static BuyEvent buyEventHandler;
 
     public delegate void HoverEvent(Bin hoveredBin, ShopRaccoon hoveredRaccoon, Upgrade hoveredUpgrade);
     public static HoverEvent hoverEventHandler;
 
-    public delegate void UpgradeEvent(int upgradePrice);
+    public delegate void UpgradeEvent(float upgradePrice);
     public static UpgradeEvent buyUpgradeEventHandler;
 
     public Text raccoonCountDisplay, moneyDisplay;
@@ -74,7 +74,7 @@ public class MissionController : MonoBehaviour
     //int displayNum;
 
     //DEBUG TAKE OUT FOR RELEASE
-    public int moneys;
+    public float moneys;
 
     //bins
     GameObject starterBinObject, starterRaccoonObject;
@@ -150,7 +150,7 @@ public class MissionController : MonoBehaviour
         return currBin;
     }
 
-    public int CheckMoney()
+    public float CheckMoney()
     {
         return moneys;
     }
@@ -171,12 +171,12 @@ public class MissionController : MonoBehaviour
         return (T)Type.ToObject(typeof(T), number);
     }
 
-    void HandleSellEvent(Raccoon parent, int price)
+    void HandleSellEvent(Raccoon parent, float price)
     {
         moneys += price;
     }
 
-    void HandleBuyEvent(int buyPrice)
+    void HandleBuyEvent(float buyPrice)
     {
         moneys -= buyPrice;
     }
@@ -195,7 +195,7 @@ public class MissionController : MonoBehaviour
         }
     }
 
-    void AddBin(Raccoon sampleRaccoon)
+    public void AddBin(Raccoon sampleRaccoon)
     {
        //create a new bin from the prefab bin
        Bin newBin = Instantiate(binPrefab) as Bin;
@@ -232,7 +232,7 @@ public class MissionController : MonoBehaviour
         }
     }
 
-    void HandleUpgradeEvent(int buyPrice)
+    void HandleUpgradeEvent(float buyPrice)
     {
         moneys -= buyPrice;
     }

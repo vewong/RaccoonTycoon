@@ -75,7 +75,7 @@ public class ShopRaccoon : MonoBehaviour, IPointerEnterHandler
     }
 
     //delegates
-    void HandleSellEvent(Raccoon parent, int price)
+    void HandleSellEvent(Raccoon parent, float price)
     {
         //check if this ShopRaccoon's buy price is now lower than the current money total
         if (Shoppe.Instance.GetBuyPrice(GetRaccoonType()) <= MissionController.Instance.CheckMoney())

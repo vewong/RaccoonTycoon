@@ -10,6 +10,7 @@ public class Upgrade : MonoBehaviour, IPointerEnterHandler
     public Text upgradeText;
 
     int upgradedTimes = 1;
+    string upgradeName;
 
     Shoppe.Upgrades upgradeType;
     
@@ -56,7 +57,8 @@ public class Upgrade : MonoBehaviour, IPointerEnterHandler
             }
         }
 
-        upgradeText.text = upgradeText.text + " " + upgradedTimes;
+        upgradeName = upgradeText.text;
+        upgradeText.text += " " + upgradedTimes;
 	}
 
     void OnEnable()
@@ -76,12 +78,9 @@ public class Upgrade : MonoBehaviour, IPointerEnterHandler
 	}
 
     //delegates
-    void HandleUpgradeEvent(int buyPrice)
+    void HandleUpgradeEvent(float buyPrice)
     {
-        //determine type of upgrade
-
-        //increment the upgrade display name
-        //let's say they all start at 1 and go up from there?
+        
     }
 
     public void OnPointerEnter(PointerEventData pointerData)
@@ -98,5 +97,13 @@ public class Upgrade : MonoBehaviour, IPointerEnterHandler
     public Shoppe.Upgrades GetUpgradeType()
     {
         return upgradeType;
+    }
+
+    //setters
+    public void AddUpgradeCount()
+    {
+        upgradedTimes++;
+
+        upgradeText.text = upgradeName + " " + upgradedTimes;
     }
 }

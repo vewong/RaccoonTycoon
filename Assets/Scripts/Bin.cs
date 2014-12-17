@@ -133,7 +133,7 @@ public class Bin : MonoBehaviour
     }
 
     //other methods
-    void HandleSellEvent(Raccoon parent, int price)
+    void HandleSellEvent(Raccoon parent, float price)
     {
         //subtract raccoons from bin
         if (parent.Equals(currRaccoon))
@@ -142,7 +142,7 @@ public class Bin : MonoBehaviour
         }
     }
 
-    void HandleBuyEvent(int buyPrice)
+    void HandleBuyEvent(float buyPrice)
     {
         currRaccoons++;
     }

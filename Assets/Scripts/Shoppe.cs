@@ -19,7 +19,7 @@ public class Shoppe : MonoBehaviour
         }
     }
 
-    int[] buyPrice, sellPrice, powerUpPrice;
+    float[] buyPrice, sellPrice, powerUpPrice;
     string[] powerUps;
 
     public enum Upgrades
@@ -87,7 +87,7 @@ public class Shoppe : MonoBehaviour
 
         //populate the upgrades
         powerUps = new string[(int)Upgrades.count];
-        powerUpPrice = new int[powerUps.Length];
+        powerUpPrice = new float[powerUps.Length];
         int startPowerUpsPrice = 100;
 
         List<Text> displayStrings = new List<Text>();
@@ -148,8 +148,8 @@ public class Shoppe : MonoBehaviour
         int startBuyPrice = 5;
         int startSellPrice = 3;
 
-        buyPrice = new int[MissionController.Instance.GetNumTypes()-1];
-        sellPrice = new int[MissionController.Instance.GetNumTypes()-1];
+        buyPrice = new float[MissionController.Instance.GetNumTypes()-1];
+        sellPrice = new float[MissionController.Instance.GetNumTypes()-1];
 
         //populate buy and sell price arrays, initialize a whole bunch of shop entries
         for (int i = 0; i < buyPrice.Length; i++)
@@ -207,7 +207,7 @@ public class Shoppe : MonoBehaviour
 
         if (currentShopRaccoon != null)
         {
-            int currentFunds = MissionController.Instance.CheckMoney();
+            float currentFunds = MissionController.Instance.CheckMoney();
 
             if (currentFunds > buyPrice[(int)currentShopRaccoon.GetRaccoonType()] && currentBinRaccoonCount < currentBin.GetCapacity())
             {
@@ -259,9 +259,41 @@ public class Shoppe : MonoBehaviour
         {
             //call all the methods subscribed to the delegate
             MissionController.buyUpgradeEventHandler(powerUpPrice[(int)currentUpgrade.GetUpgradeType()]);
-            //play audio
+            //play audio?
+
+            currentUpgrade.AddUpgradeCount();
 
             //check upgrade type and apply changes to whatever needs changing.
+            switch (currentUpgrade.GetUpgradeType())
+            {
+                case Upgrades.bin:
+                    //I guess duplicate the types of raccoons in the current bin... or make it possible for there to be an empty bin
+                    MissionController.Instance.AddBin(MissionController.Instance.GetCurrentBin().GetRaccoon());
+                    break;
+                case Upgrades.breedTimeDown:
+                    //reduce the breed time of raccoons
+                    break;
+                case Upgrades.raccoonPriceUp:
+                    //increase the sell price of all raccoons by a percent (5%?)
+                    for (int i = 0; i < sellPrice.Length; i++)
+                    {
+                        //ugh probably should have used a double and not a float but I'm too lazy to change all that bullshit again
+                        sellPrice[i] *= 1.05f;
+                    }
+                    break;
+                case Upgrades.reproNumUp:
+                    //change the range raccoons can breed between
+                    break;
+                case Upgrades.binCapacityUp:
+                    //change the capacity of all bins (because it's easier this way :) )
+                    break;
+                case Upgrades.autoSellMachine:
+                    //activate some method that sells any raccoons that might have pushed bins over capacity
+                    break;
+                default:
+                    Debug.LogError("Upgrade type missing!!");
+                    break;
+            }
         }
         else
         {
@@ -311,7 +343,7 @@ public class Shoppe : MonoBehaviour
     }
 
     //get the buy price of a raccoon
-    public int GetBuyPrice(MissionController.Type raccoonType)
+    public float GetBuyPrice(MissionController.Type raccoonType)
     {
         return buyPrice[(int)raccoonType];
     }
