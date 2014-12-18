@@ -78,7 +78,7 @@ public class Upgrade : MonoBehaviour, IPointerEnterHandler
 	}
 
     //delegates
-    void HandleUpgradeEvent(float buyPrice)
+    void HandleUpgradeEvent(float buyPrice, Upgrade upgradePurchased)
     {
         
     }

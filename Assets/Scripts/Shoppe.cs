@@ -258,7 +258,7 @@ public class Shoppe : MonoBehaviour
         if (MissionController.buyUpgradeEventHandler != null && currentUpgrade != null)
         {
             //call all the methods subscribed to the delegate
-            MissionController.buyUpgradeEventHandler(powerUpPrice[(int)currentUpgrade.GetUpgradeType()]);
+            MissionController.buyUpgradeEventHandler(powerUpPrice[(int)currentUpgrade.GetUpgradeType()], currentUpgrade);
             //play audio?
 
             currentUpgrade.AddUpgradeCount();
@@ -271,7 +271,8 @@ public class Shoppe : MonoBehaviour
                     MissionController.Instance.AddBin(MissionController.Instance.GetCurrentBin().GetRaccoon());
                     break;
                 case Upgrades.breedTimeDown:
-                    //reduce the breed time of raccoons
+                    //decrease the time needed before reproduction
+                    MissionController.Instance.GetCurrentBin().GetRaccoon().BreedTimeUpgrade();
                     break;
                 case Upgrades.raccoonPriceUp:
                     //increase the sell price of all raccoons by a percent (5%?)
@@ -282,13 +283,16 @@ public class Shoppe : MonoBehaviour
                     }
                     break;
                 case Upgrades.reproNumUp:
-                    //change the range raccoons can breed between
+                    //increase the offspring created in reproduction
+                    MissionController.Instance.GetCurrentBin().GetRaccoon().OffspringIncreaseUpgrade();
                     break;
                 case Upgrades.binCapacityUp:
                     //change the capacity of all bins (because it's easier this way :) )
+                    MissionController.Instance.GetCurrentBin().IncreaseBinCapacity();
                     break;
                 case Upgrades.autoSellMachine:
                     //activate some method that sells any raccoons that might have pushed bins over capacity
+                    MissionController.Instance.GetCurrentBin().AutoSellActivate();
                     break;
                 default:
                     Debug.LogError("Upgrade type missing!!");
@@ -346,5 +350,10 @@ public class Shoppe : MonoBehaviour
     public float GetBuyPrice(MissionController.Type raccoonType)
     {
         return buyPrice[(int)raccoonType];
+    }
+
+    public float GetSellPrice(MissionController.Type raccoonType)
+    {
+        return sellPrice[(int)raccoonType];
     }
 }

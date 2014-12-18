@@ -29,7 +29,7 @@ public class MissionController : MonoBehaviour
     public delegate void HoverEvent(Bin hoveredBin, ShopRaccoon hoveredRaccoon, Upgrade hoveredUpgrade);
     public static HoverEvent hoverEventHandler;
 
-    public delegate void UpgradeEvent(float upgradePrice);
+    public delegate void UpgradeEvent(float upgradePrice, Upgrade upgradeBought);
     public static UpgradeEvent buyUpgradeEventHandler;
 
     public Text raccoonCountDisplay, moneyDisplay;
@@ -232,8 +232,11 @@ public class MissionController : MonoBehaviour
         }
     }
 
-    void HandleUpgradeEvent(float buyPrice)
+    void HandleUpgradeEvent(float buyPrice, Upgrade upgradeBought)
     {
+        //first handle the money
         moneys -= buyPrice;
+
+        //then check if there's any other business to attend to
     }
 }

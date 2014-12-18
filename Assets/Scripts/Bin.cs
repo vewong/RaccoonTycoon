@@ -9,6 +9,7 @@ public class Bin : MonoBehaviour
     int maxRaccoons, currRaccoons;
     //List<int> pairOfRaccoons = new List<int>();
     float timeToNextBreed;
+    bool autoSell = false;
     public Text binName, raccoonCountText;
     public Button sellButton; 
 
@@ -99,7 +100,33 @@ public class Bin : MonoBehaviour
                 //need to add something in here about selling the excess raccoons if powerup is available
                 if (currRaccoons > maxRaccoons)
                 {
-                    currRaccoons = maxRaccoons;
+                    if (!autoSell)
+                    {
+                        currRaccoons = maxRaccoons;
+                    }
+                    else
+                    {
+                        Debug.Log("Auto selling raccoons!");
+                        //get the difference between the max bin capacity and the current raccoons trying to be put into the bin
+                        int autoSellRaccoons = currRaccoons - maxRaccoons;
+                        Debug.Log(" Num to sell: " + autoSellRaccoons);
+
+                        //call sell for each raccoon being sold
+                        for (int i = 0; i < autoSellRaccoons; i++)
+                        {
+                            if (MissionController.sellEventHandler != null)
+                            {
+                                // Call all the methods that have subscribed to the delegate
+                                MissionController.sellEventHandler(currRaccoon, Shoppe.Instance.GetSellPrice(currRaccoon.GetEnumType()));
+                            }
+                            else
+                            {
+                                Debug.Log("No one is subscribed to sell events ;_;");
+                            }
+
+                            Debug.Log("Sold " + i + " raccoons on auto sell");
+                        }
+                    }
                 }
 
                 timeToNextBreed = currRaccoon.GetReproTime();
@@ -157,8 +184,23 @@ public class Bin : MonoBehaviour
         }
     }
 
-    //void OnMouseExit()
-    //{
-    //    Debug.Log("Goodbye!");
-    //}
+    public void IncreaseBinCapacity()
+    {
+        //more fake math...
+        float maxRaccoonsFloat = maxRaccoons;
+
+        maxRaccoonsFloat *= 1.1f;
+
+        Debug.Log("Fake math test bins: (float) " + maxRaccoonsFloat);
+
+        maxRaccoons = (int)maxRaccoonsFloat;
+
+        Debug.Log("Fake math test bins: (int) " + maxRaccoons);
+    }
+    
+    public void AutoSellActivate()
+    {
+        Debug.Log("Activating auto sell!");
+        autoSell = true;
+    }
 }

@@ -36,21 +36,31 @@ public class Raccoon : MonoBehaviour
 
     //setters
     //pretty much going to have to use these when players get powerups
-    protected void ChangeBreedingTime(float minTime, float maxTime)
+    public void BreedTimeUpgrade()
     {
-        minReproTime = minTime;
-        maxReproTime = maxTime;
+        //reduce the reproduction time by 5%
+        minReproTime *= .95f;
+        maxReproTime *= .95f;
     }
 
-    protected void ChangeOffsprings(int minOffspring, int maxOffspring)
+    public void OffspringIncreaseUpgrade()
     {
-        minReproRate = minOffspring;
-        maxReproRate = maxOffspring;
+        //increase the amount of offspring produced by 5%
+        float minReproRateFloat, maxReproRateFloat;
+
+        minReproRateFloat = minReproRate;
+        maxReproRateFloat = maxReproRate;
+
+        minReproRateFloat *= 1.1f;
+        maxReproRateFloat *= 1.1f;
+        Debug.Log("Testing fake math (floats): " + minReproRateFloat + " min " + maxReproRateFloat + " max.");
+
+        minReproRate = (int)minReproRateFloat;
+        maxReproRate = (int)maxReproRateFloat;
+        Debug.Log("Testing fake math (ints): " + minReproRate + " min " + maxReproRate + " max.");
     }
 
     //other methods
-    //do raccoons keep track of when they should breed?
-    //the bins need to tell the raccoons if they can breed?
 
     //make more raccoons!
     public int Multiply()
