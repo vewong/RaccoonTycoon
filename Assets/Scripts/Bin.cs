@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Bin : MonoBehaviour 
+public class Bin : MonoBehaviour, IPointerEnterHandler
 {
     Raccoon currRaccoon;
     int maxRaccoons, currRaccoons;
@@ -163,10 +164,7 @@ public class Bin : MonoBehaviour
     void HandleSellEvent(Raccoon parent, float price)
     {
         //subtract raccoons from bin
-        if (parent.Equals(currRaccoon))
-        {
-            currRaccoons--;
-        }
+        currRaccoons--;
     }
 
     void HandleBuyEvent(float buyPrice)
@@ -174,9 +172,9 @@ public class Bin : MonoBehaviour
         currRaccoons++;
     }
 
-    void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData pointerData)
     {
-        //Debug.Log("Hello!");
+        Debug.Log("Bin " + binName);
 
         if (MissionController.hoverEventHandler != null)
         {
