@@ -197,11 +197,11 @@ public class Shoppe : MonoBehaviour
         {
             if (currentBinRaccoonCount <= 0)
             {
-                currentBin.sellButton.enabled = false;
+                currentBin.sellButton.interactable = false;
             }
             else
             {
-                currentBin.sellButton.enabled = true;
+                currentBin.sellButton.interactable = true;
             }
         }
 
@@ -211,11 +211,11 @@ public class Shoppe : MonoBehaviour
 
             if (currentFunds > buyPrice[(int)currentShopRaccoon.GetRaccoonType()] && currentBinRaccoonCount < currentBin.GetCapacity())
             {
-                currentShopRaccoon.buyButton.enabled = true;
+                currentShopRaccoon.buyButton.interactable = true;
             }
             else
             {
-                currentShopRaccoon.buyButton.enabled = false;
+                currentShopRaccoon.buyButton.interactable = false;
             }
         }
     }
@@ -240,9 +240,48 @@ public class Shoppe : MonoBehaviour
 
         if (MissionController.buyEventHandler != null && currentRaccoon != null)
         {
-            // Call all the methods that have subscribed to the delegate
-            MissionController.buyEventHandler(buyPrice[(int)currentRaccoon.GetRaccoonType()]);
-            audio.PlayOneShot(buySound);
+            //first check if this is a new raccoon type
+            foreach (Bin b in MissionController.Instance.GetBins())
+            {
+                if (b.GetRaccoon() == null)
+                {
+                    //we found an empty bin!
+                    GameObject newRaccoonObject = new GameObject("New Raccoon");
+                    Raccoon newRaccoon = newRaccoonObject.AddComponent<Raccoon>();
+                    newRaccoon.Initialize(currentRaccoon.GetRaccoonType());
+                    b.SetRaccoon(newRaccoon);
+
+                    MissionController.buyEventHandler(buyPrice[(int)currentRaccoon.GetRaccoonType()]);
+                    audio.PlayOneShot(buySound);
+
+                    return;
+                }
+                else if (b.GetRaccoon().GetEnumType() == currentRaccoon.GetRaccoonType())
+                {
+                    //put some raccoons in this bin!
+
+                    //call all the methods that have subscribed to the delegate
+                    MissionController.buyEventHandler(buyPrice[(int)currentRaccoon.GetRaccoonType()]);
+                    audio.PlayOneShot(buySound);
+
+                    //stop looking, we already found somewhere to put this raccoon
+                    return;
+                }
+            }
+
+            //if we're down here, there was no bins with room or no bins with that same type
+            //try to narrow it down
+            foreach (Bin b in MissionController.Instance.GetBins())
+            {
+                if (!b.IsFull())
+                {
+                    //in this case, all the bins were not full so the cause of not being able to sell was having a new raccoon type
+                    Debug.LogError("You have no empty bins to add this new Raccoon to!");
+                    return;
+                }
+            }
+            //okay we shouldn't be able to get down here without hitting another type of error/exit
+            Debug.LogError("All of your bins are full!");
         }
         else
         {
@@ -323,27 +362,27 @@ public class Shoppe : MonoBehaviour
     void OpenUpgradesTab()
     {
         //deactivate the upgrade tab button once the actual tab has been opened
-        upgradesTab.enabled = false;
+        upgradesTab.interactable = false;
 
         //swap the active tabs
         raccoonTabObject.SetActive(false);
         upgradesTabObject.SetActive(true);
 
         //enable the main shop button/tab so you can switch back
-        mainTab.enabled = true;
+        mainTab.interactable = true;
     }
 
     //Open the main/raccoon tab/section of the store on button press
     void OpenRaccoonTab()
     {
         //disable the main tab/button now that it's opening
-        mainTab.enabled = false;
+        mainTab.interactable = false;
 
         //swap active tabs
         upgradesTabObject.SetActive(false);
         raccoonTabObject.SetActive(true);
 
-        upgradesTab.enabled = true;
+        upgradesTab.interactable = true;
     }
 
     //get the buy price of a raccoon

@@ -17,6 +17,19 @@ public class Raccoon : MonoBehaviour
         minReproRate = minOffspring;
         maxReproRate = maxOffspring;
     }
+
+    public void Initialize(MissionController.Type myBreed)
+    {
+        type = myBreed;
+
+        //get the times from MissionController
+        float[] times = MissionController.Instance.GetRaccoonTimes(myBreed);
+
+        minReproTime = times[0];
+        maxReproTime = times[1];
+        minReproRate = (int)times[2];
+        maxReproRate = (int)times[3];
+    }
 	
 	//getters
     public string Type()

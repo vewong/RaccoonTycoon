@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using System;
 
 public class MissionController : MonoBehaviour
 {
@@ -76,12 +78,14 @@ public class MissionController : MonoBehaviour
     //DEBUG TAKE OUT FOR RELEASE
     public float moneys;
 
-    //bins
     GameObject starterBinObject, starterRaccoonObject;
     Bin currBin;
+    List<Bin> bins = new List<Bin>();
     Raccoon starterRaccoon;
     ShopRaccoon currShopRaccoon;
     Upgrade currUpgrade;
+    int[] minOffsprings, maxOffsprings;
+    float[] minReproTimes, maxReproTimes;
 
     // Use this for initialization
     void Start()
@@ -96,11 +100,38 @@ public class MissionController : MonoBehaviour
             Debug.Log("Shop button NULL!");
         }
 
+        //set the repro times for all raccoon types
+        minReproTimes = new float[(int)Type.count];
+        float minReproTimeStart = 3f;
+        maxReproTimes = new float[(int)Type.count];
+        float maxReproTimeStart = 5f;
+        minOffsprings = new int[(int)Type.count];
+        int minOffspringStart = 2;
+        maxOffsprings = new int[(int)Type.count];
+        int maxOffspringStart = 4;
+
+        for (int i = 0; i < (int)Type.count; i++)
+        {
+            //DEBUG STuFFF
+            Debug.Log("Raccoon " + (Type)i + ":\nRepro min/max: " + minReproTimeStart + ", " + maxReproTimeStart + "; Offspring min/max: " + minOffspringStart + ", " + maxOffspringStart);
+
+            minReproTimes[i] = minReproTimeStart;
+            maxReproTimes[i] = maxReproTimeStart;
+            minOffsprings[i] = minOffspringStart;
+            maxOffsprings[i] = maxOffspringStart;
+
+            minReproTimeStart *= 1.05f;
+            maxReproTimeStart *= 1.05f;
+            //need to figure out another way to calculate offspring
+            minOffspringStart += (int)Math.Floor(i * 1.001f);
+            maxOffspringStart += (int)Math.Floor(i * 1.001f);
+        }
+
         starterRaccoonObject = new GameObject("Starter Raccoon");
         starterRaccoon = starterRaccoonObject.AddComponent<Raccoon>();
-        starterRaccoon.Initialize(Type.trash, 3f, 5f, 2, 4);
+        starterRaccoon.Initialize(Type.trash);
 
-        AddBin(starterRaccoon);
+        AddBin(starterRaccoon, 25, 2);
         
         moneys = 3;
     }
@@ -165,6 +196,24 @@ public class MissionController : MonoBehaviour
         return currUpgrade;
     }
 
+    public List<Bin> GetBins()
+    {
+        return bins;
+    }
+
+    public float[] GetRaccoonTimes(MissionController.Type raccoonType)
+    {
+        float[] times = new float[4];
+        int type = (int)raccoonType;
+
+        times[0] = minReproTimes[type];
+        times[1] = maxReproTimes[type];
+        times[2] = minOffsprings[type]; //hopefully this conversion won't fuck shit up
+        times[3] = maxOffsprings[type];
+
+        return times;
+    }
+
     //other methods
     public T NumToEnum<T>(int number)
     {
@@ -174,6 +223,9 @@ public class MissionController : MonoBehaviour
     void HandleSellEvent(Raccoon parent, float price)
     {
         moneys += price;
+
+        //get rid of the raccoon from the current bin
+        currBin.SellRaccoon();
     }
 
     void HandleBuyEvent(float buyPrice)
@@ -202,7 +254,7 @@ public class MissionController : MonoBehaviour
 
         //set the new bin to be a child of the bin layout element
        newBin.gameObject.transform.parent = binArea.transform;
-       newBin.Initialize(starterRaccoon, 25);
+       newBin.Initialize();
 
        //set the current bin to the bin just created
        if (newBin == null)
@@ -211,8 +263,32 @@ public class MissionController : MonoBehaviour
        }
        else
        {
+           bins.Add(newBin);
+
            currBin = newBin;
        }
+    }
+
+    public void AddBin(Raccoon sampleRaccoon, int capacity, int currRaccoons)
+    {
+        //create a new bin from the prefab bin
+        Bin newBin = Instantiate(binPrefab) as Bin;
+
+        //set the new bin to be a child of the bin layout element
+        newBin.gameObject.transform.parent = binArea.transform;
+        newBin.Initialize(starterRaccoon, capacity, currRaccoons);
+
+        //set the current bin to the bin just created
+        if (newBin == null)
+        {
+            Debug.LogError("Bin null!");
+        }
+        else
+        {
+            bins.Add(newBin);
+
+            currBin = newBin;
+        }
     }
 
     void HandleHoverEvent(Bin hoveredBin, ShopRaccoon hoveredRaccoon, Upgrade hoveredUpgrade)

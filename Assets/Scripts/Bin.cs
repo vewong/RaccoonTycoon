@@ -12,7 +12,7 @@ public class Bin : MonoBehaviour, IPointerEnterHandler
     float timeToNextBreed;
     bool autoSell = false;
     public Text binName, raccoonCountText;
-    public Button sellButton; 
+    public Button sellButton, emptyButton; 
 
 	// Use this for initialization
 	void Start () 
@@ -21,7 +21,7 @@ public class Bin : MonoBehaviour, IPointerEnterHandler
         //currRaccoon = Raccoon.CreateInstance("Raccoon") as Raccoon;
         //currRaccoon.Initialize(MissionController.Type.trash, 3f, 5f, 2, 4);
         maxRaccoons = 25;
-        currRaccoons = 2;
+        //currRaccoons = 2;
 
         //timeToNextBreed = currRaccoon.GetReproTime();
 
@@ -30,7 +30,7 @@ public class Bin : MonoBehaviour, IPointerEnterHandler
             Debug.Log("Bin name left blank");
         }
 
-        //set up the sell button
+        //set up the sell buttons
         if (sellButton != null)
         {
             sellButton.onClick.AddListener(delegate { Shoppe.Instance.SellRaccoon(); });
@@ -39,6 +39,19 @@ public class Bin : MonoBehaviour, IPointerEnterHandler
         {
             Debug.Log("Sell button NULL!");
         }
+
+        //set up the empty bin buttons
+        if (emptyButton != null)
+        {
+            //does this need any delegates?
+            //emptyButton.onClick.AddListener(delegate { Shoppe.Instance.Empty(); });
+
+            emptyButton.onClick.AddListener(delegate { Empty(); });
+        }
+        else
+        {
+            Debug.Log("Empty button NULL!");
+        }
 	}
 
     public void Initialize(Raccoon raccoonType, int capacity, int raccoonCount)
@@ -46,24 +59,26 @@ public class Bin : MonoBehaviour, IPointerEnterHandler
         currRaccoon = raccoonType;
         maxRaccoons = capacity;
         currRaccoons = raccoonCount;
+
+        //return this;
     }
 
-    public void Initialize(Raccoon raccoonType, int capacity)
+    public void Initialize()
     {
         Debug.Log("Initialize");
-        currRaccoon = raccoonType;
-        maxRaccoons = capacity;
+        currRaccoon = null;
+        maxRaccoons = 25;
     }
 
     void OnEnable()
     {
-        MissionController.sellEventHandler += HandleSellEvent;
+        //MissionController.sellEventHandler += HandleSellEvent;
         MissionController.buyEventHandler += HandleBuyEvent;
     }
 
     void OnDisable()
     {
-        MissionController.sellEventHandler -= HandleSellEvent;
+        //MissionController.sellEventHandler -= HandleSellEvent;
         MissionController.buyEventHandler -= HandleBuyEvent;
     }
 
@@ -81,6 +96,21 @@ public class Bin : MonoBehaviour, IPointerEnterHandler
     public int GetCapacity()
     {
         return maxRaccoons;
+    }
+
+    //setters
+    public void SetRaccoon(Raccoon newRaccoon)
+    {
+        currRaccoon = newRaccoon;
+    }
+
+    /// <summary>
+    /// Check if the current bin is full
+    /// </summary>
+    /// <returns>Returns true if the current bin is full, and false if not.</returns>
+    public bool IsFull()
+    {
+        return currRaccoons >= maxRaccoons;
     }
 
     //setters
@@ -158,13 +188,42 @@ public class Bin : MonoBehaviour, IPointerEnterHandler
         {
             raccoonCountText.text = "ERRORERRORERROR";
         }
+
+        //disable the empty button, if applicable
+        if (currRaccoons <= 0)
+        {
+            emptyButton.interactable = false;
+        }
+        else
+        {
+            emptyButton.interactable = true;
+        }
     }
 
     //other methods
-    void HandleSellEvent(Raccoon parent, float price)
+    void Empty()
+    {
+        //sell all raccoons in bin
+        for (int i = 0; i <= currRaccoons; i++)
+        {
+            --currRaccoons;
+            Shoppe.Instance.SellRaccoon();
+        }
+
+        currRaccoons = 0;
+        currRaccoon = null;
+    }
+
+    public void SellRaccoon(/*Raccoon parent, float price*/)
     {
         //subtract raccoons from bin
         currRaccoons--;
+
+        if (currRaccoons == 0)
+        {
+            //bin is now empty, set the raccoon to null
+            currRaccoon = null;
+        }
     }
 
     void HandleBuyEvent(float buyPrice)
