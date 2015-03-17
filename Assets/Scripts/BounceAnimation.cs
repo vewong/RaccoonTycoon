@@ -35,7 +35,7 @@ public class BounceAnimation : MonoBehaviour
             Debug.Log("Hop!");
             jumpTime = Random.Range(5, 15);
 
-            audio.PlayOneShot(hopSound);
+            GetComponent<AudioSource>().PlayOneShot(hopSound);
         }
         else
         {

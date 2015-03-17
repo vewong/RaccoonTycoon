@@ -131,7 +131,7 @@ public class Shoppe : MonoBehaviour
             //add upgrade display to upgrades tab
             GameObject tempObject;
             tempObject = Instantiate(upgradesDisplay) as GameObject;
-            tempObject.transform.parent = upgradesContentContainer.transform;
+            tempObject.transform.SetParent(upgradesContentContainer.transform, false);
 
             tempObject.GetComponentsInChildren<Text>(displayStrings);
 
@@ -162,7 +162,7 @@ public class Shoppe : MonoBehaviour
 
             GameObject tempObject;
             tempObject = Instantiate(raccoonDisplay) as GameObject;
-            tempObject.transform.parent = raccoonScrollableContentContainer.transform;
+            tempObject.transform.SetParent(raccoonScrollableContentContainer.transform, false);
 
             tempObject.GetComponentsInChildren<Text>(displayStrings);
 
@@ -230,7 +230,7 @@ public class Shoppe : MonoBehaviour
             MissionController.sellEventHandler(replacementRaccoon, sellPrice[(int)replacementRaccoon.GetEnumType()]);
         }
 
-        audio.PlayOneShot(sellSound);
+        GetComponent<AudioSource>().PlayOneShot(sellSound);
     }
 
     public void BuyRaccoon()
@@ -252,7 +252,7 @@ public class Shoppe : MonoBehaviour
                     b.SetRaccoon(newRaccoon);
 
                     MissionController.buyEventHandler(buyPrice[(int)currentRaccoon.GetRaccoonType()]);
-                    audio.PlayOneShot(buySound);
+                    GetComponent<AudioSource>().PlayOneShot(buySound);
 
                     return;
                 }
@@ -262,7 +262,7 @@ public class Shoppe : MonoBehaviour
 
                     //call all the methods that have subscribed to the delegate
                     MissionController.buyEventHandler(buyPrice[(int)currentRaccoon.GetRaccoonType()]);
-                    audio.PlayOneShot(buySound);
+                    GetComponent<AudioSource>().PlayOneShot(buySound);
 
                     //stop looking, we already found somewhere to put this raccoon
                     return;

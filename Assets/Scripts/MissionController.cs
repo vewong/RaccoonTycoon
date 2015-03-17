@@ -275,7 +275,7 @@ public class MissionController : MonoBehaviour
         Bin newBin = Instantiate(binPrefab) as Bin;
 
         //set the new bin to be a child of the bin layout element
-        newBin.gameObject.transform.parent = binArea.transform;
+        newBin.gameObject.transform.SetParent(binArea.transform, false);
         newBin.Initialize(starterRaccoon, capacity, currRaccoons);
 
         //set the current bin to the bin just created
