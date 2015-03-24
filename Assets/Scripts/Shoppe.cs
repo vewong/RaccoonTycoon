@@ -136,8 +136,8 @@ public class Shoppe : MonoBehaviour
             tempObject.GetComponentsInChildren<Text>(displayStrings);
 
             //assuming the first text is the name and the second is the price display
-            displayStrings[0].text = powerUps[i];
-            displayStrings[1].text = "$" + powerUpPrice[i];
+            displayStrings[1].text = powerUps[i];
+            displayStrings[2].text = "$" + powerUpPrice[i];
 
             //can set upgrade type here?
         }
@@ -394,5 +394,10 @@ public class Shoppe : MonoBehaviour
     public float GetSellPrice(MissionController.Type raccoonType)
     {
         return sellPrice[(int)raccoonType];
+    }
+
+    public float GetUpgradeBuyPrice(Upgrades upgradeType)
+    {
+        return powerUpPrice[(int)upgradeType];
     }
 }

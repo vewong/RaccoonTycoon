@@ -4,10 +4,11 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
-public class Upgrade : MonoBehaviour, IPointerEnterHandler 
+public class Upgrade : MonoBehaviour, IPointerEnterHandler
 {
     public Button buyButton;
     public Text upgradeText;
+    public Text upgradeDescription;
 
     int upgradedTimes = 1;
     string upgradeName;
@@ -35,21 +36,27 @@ public class Upgrade : MonoBehaviour, IPointerEnterHandler
             {
                 case "New Bin":
                     upgradeType = Shoppe.Upgrades.bin;
+                    upgradeDescription.text = "A new bin to add raccoons to.";
                     break;
                 case "Fertility Treatment":
                     upgradeType = Shoppe.Upgrades.breedTimeDown;
+                    upgradeDescription.text = "Decrease the time it takes for your raccoons to breed.";
                     break;
                 case "Incubators":
                     upgradeType = Shoppe.Upgrades.reproNumUp;
+                    upgradeDescription.text = "Increase the number of baby raccoons!";
                     break;
                 case "Glitter":
                     upgradeType = Shoppe.Upgrades.raccoonPriceUp;
+                    upgradeDescription.text = "Increase the selling price of raccoons.";
                     break;
                 case "Bin Capacity":
                     upgradeType = Shoppe.Upgrades.binCapacityUp;
+                    upgradeDescription.text = "Your bins now hold more raccoons!";
                     break;
                 case "Auto-sell Raccoons":
                     upgradeType = Shoppe.Upgrades.autoSellMachine;
+                    upgradeDescription.text = "A robot that will sell any raccoons that don't fit in your bins.";
                     break;
                 default:
                     Debug.LogError("Upgrade type missing!");
@@ -71,10 +78,18 @@ public class Upgrade : MonoBehaviour, IPointerEnterHandler
         MissionController.buyUpgradeEventHandler -= HandleUpgradeEvent;
     }
 	
-	// Update is called once per frame
-	void Update () 
+	void OnGUI() 
     {
+        float currentFunds = MissionController.Instance.CheckMoney();
 
+        if (currentFunds >= Shoppe.Instance.GetUpgradeBuyPrice(upgradeType))
+        {
+            buyButton.interactable = true;
+        }
+        else
+        {
+            buyButton.interactable = false;
+        }
 	}
 
     //delegates
@@ -85,7 +100,7 @@ public class Upgrade : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData pointerData)
     {
-        Debug.Log("Shop " + upgradeType + " " + pointerData.position);
+        //Debug.Log("Shop " + upgradeType + " " + pointerData.position);
 
         if (MissionController.hoverEventHandler != null)
         {
