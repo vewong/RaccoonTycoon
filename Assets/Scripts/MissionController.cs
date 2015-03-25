@@ -314,5 +314,44 @@ public class MissionController : MonoBehaviour
         moneys -= buyPrice;
 
         //then check if there's any other business to attend to
+        switch (upgradeBought.GetUpgradeType())
+        {
+            case Shoppe.Upgrades.breedTimeDown:
+                //decrease the time needed before reproduction
+                //reduce all reproduction time by 5%
+                for (int i = 0; i < minReproTimes.Length; i++)
+                {
+                    minReproTimes[i] *= .95f;
+                    maxReproTimes[i] *= .95f;
+                }
+                break;
+            case Shoppe.Upgrades.reproNumUp:
+                //increase the offspring created in reproduction
+
+                //increase the amount of offspring produced by 5%
+                for (int i = 0; i < minOffsprings.Length; i++)
+                {
+                    float minReproRateFloat, maxReproRateFloat;
+
+                    minReproRateFloat = minOffsprings[i];
+                    maxReproRateFloat = maxOffsprings[i];
+
+                    minReproRateFloat *= 1.1f;
+                    maxReproRateFloat *= 1.1f;
+                    Debug.Log("Testing fake math (floats): " + minReproRateFloat + " min " + maxReproRateFloat + " max.");
+
+                    minOffsprings[i] = (int)minReproRateFloat;
+                    maxOffsprings[i] = (int)maxReproRateFloat;
+                    Debug.Log("Testing fake math (ints): " + minOffsprings[i] + " min " + maxOffsprings[i] + " max.");
+                }
+                break;
+            case Shoppe.Upgrades.binCapacityUp:
+                //change the capacity of all bins (because it's easier this way :) )
+                foreach(Bin b in bins)
+                {
+                    b.IncreaseBinCapacity();
+                }
+                break;
+        }
     }
 }

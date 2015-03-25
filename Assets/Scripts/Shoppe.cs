@@ -309,10 +309,6 @@ public class Shoppe : MonoBehaviour
                     //I guess duplicate the types of raccoons in the current bin... or make it possible for there to be an empty bin
                     MissionController.Instance.AddBin(MissionController.Instance.GetCurrentBin().GetRaccoon());
                     break;
-                case Upgrades.breedTimeDown:
-                    //decrease the time needed before reproduction
-                    MissionController.Instance.GetCurrentBin().GetRaccoon().BreedTimeUpgrade();
-                    break;
                 case Upgrades.raccoonPriceUp:
                     //increase the sell price of all raccoons by a percent (5%?)
                     for (int i = 0; i < sellPrice.Length; i++)
@@ -321,16 +317,9 @@ public class Shoppe : MonoBehaviour
                         sellPrice[i] *= 1.05f;
                     }
                     break;
-                case Upgrades.reproNumUp:
-                    //increase the offspring created in reproduction
-                    MissionController.Instance.GetCurrentBin().GetRaccoon().OffspringIncreaseUpgrade();
-                    break;
-                case Upgrades.binCapacityUp:
-                    //change the capacity of all bins (because it's easier this way :) )
-                    MissionController.Instance.GetCurrentBin().IncreaseBinCapacity();
-                    break;
                 case Upgrades.autoSellMachine:
                     //activate some method that sells any raccoons that might have pushed bins over capacity
+                    //activate for all bins? probably prudent
                     MissionController.Instance.GetCurrentBin().AutoSellActivate();
                     break;
                 default:

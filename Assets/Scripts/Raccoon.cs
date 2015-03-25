@@ -49,7 +49,7 @@ public class Raccoon : MonoBehaviour
 
     //setters
     //pretty much going to have to use these when players get powerups
-    public void BreedTimeUpgrade()
+    /*public void BreedTimeUpgrade()
     {
         //reduce the reproduction time by 5%
         minReproTime *= .95f;
@@ -71,7 +71,7 @@ public class Raccoon : MonoBehaviour
         minReproRate = (int)minReproRateFloat;
         maxReproRate = (int)maxReproRateFloat;
         Debug.Log("Testing fake math (ints): " + minReproRate + " min " + maxReproRate + " max.");
-    }
+    }*/
 
     //other methods
 
