@@ -34,13 +34,14 @@ public class MissionController : MonoBehaviour
     public delegate void UpgradeEvent(float upgradePrice, Upgrade upgradeBought);
     public static UpgradeEvent buyUpgradeEventHandler;
 
-    public Text raccoonCountDisplay, moneyDisplay;
+    public Text raccoonCountDisplay, moneyDisplay, errorUIWindowText;
 
-    public Button settingsButton, shopButton;
+    public Button settingsButton, shopButton, errorUIWindowButton;
 
     public Canvas shopUI;
     public GameObject binArea;
     public Bin binPrefab;
+    public GameObject errorUIWindow;
 
     public enum Type
     {
@@ -98,6 +99,16 @@ public class MissionController : MonoBehaviour
         else
         {
             Debug.Log("Shop button NULL!");
+        }
+        
+        //set up the close error window button
+        if (errorUIWindowButton != null)
+        {
+            errorUIWindowButton.onClick.AddListener(delegate { CloseErrorUIWindow(); });
+        }
+        else
+        {
+            Debug.Log("Close error window button NULL!");
         }
 
         //set the repro times for all raccoon types
@@ -353,5 +364,17 @@ public class MissionController : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    public void DisplayError(string errorMessage)
+    {
+        errorUIWindowText.text = errorMessage;
+
+        errorUIWindow.SetActive(true);
+    }
+
+    private void CloseErrorUIWindow()
+    {
+        errorUIWindow.SetActive(false);
     }
 }

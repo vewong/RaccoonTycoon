@@ -276,7 +276,8 @@ public class Shoppe : MonoBehaviour
                 if (!b.IsFull())
                 {
                     //in this case, all the bins were not full so the cause of not being able to sell was having a new raccoon type
-                    Debug.LogError("You have no empty bins to add this new Raccoon to!");
+                    //Debug.LogError("You have no empty bins to add this new Raccoon to!");
+                    MissionController.Instance.DisplayError("You have no empty bins to add this new Raccoon to!");
                     return;
                 }
             }
